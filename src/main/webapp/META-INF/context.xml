@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/RecruitmentSystem"/>
+<Context antiJARLocking="true" path="/RecruitmentSystem">
+    <Resource name="jdbc/rs"
+          auth="Container"
+          type="javax.sql.DataSource"
+          username="root"
+          password="iv1201"
+          driverClassName="com.mysql.jdbc.Driver"
+          url="jdbc:mysql://localhost:3306/rs"
+          maxActive="15"
+          maxIdle="3"/>
+</Context>
