@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <ui:composition>
+            <div>
+                <h1>Common Header</h1>
+                <div id="language">
+                    <h:form>
+                        <h:commandLink action="#{locale.changeLocale}">
+                            <f:param name="languageCode" value="sv"/>
+                            <h:graphicImage value="/images/sv.png"/>
+                        </h:commandLink>
+                        <p:spacer width="5"/>
+                        <h:commandLink action="#{locale.changeLocale}">
+                            <f:param name="languageCode" value="en"/>
+                            <h:graphicImage value="/images/uk.png"/>
+                        </h:commandLink>
+                    </h:form>
+                </div>
+            </div>
+        </ui:composition>
+    </body>
+</html>
