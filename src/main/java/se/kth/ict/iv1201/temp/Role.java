@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -42,49 +42,26 @@ public class Role implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "roleName")
     private Collection<UserRole> userRoleCollection;
 
-    /**
-     *
-     */
     public Role() {
     }
 
-    /**
-     *
-     * @param roleName
-     */
     public Role(String roleName) {
         this.roleName = roleName;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getRoleName() {
         return roleName;
     }
 
-    /**
-     *
-     * @param roleName
-     */
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<UserRole> getUserRoleCollection() {
         return userRoleCollection;
     }
 
-    /**
-     *
-     * @param userRoleCollection
-     */
     public void setUserRoleCollection(Collection<UserRole> userRoleCollection) {
         this.userRoleCollection = userRoleCollection;
     }
@@ -111,7 +88,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.Role[ roleName=" + roleName + " ]";
+        return "se.kth.ict.iv1201.temp.Role[ roleName=" + roleName + " ]";
     }
     
 }

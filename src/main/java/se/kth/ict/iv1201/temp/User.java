@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -48,94 +48,50 @@ public class User implements Serializable {
     private String password;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private UserRole userRole;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "username")
     private Collection<Person> personCollection;
 
-    /**
-     *
-     */
     public User() {
     }
 
-    /**
-     *
-     * @param username
-     */
     public User(String username) {
         this.username = username;
     }
 
-    /**
-     *
-     * @param username
-     * @param password
-     */
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     *
-     * @param username
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     *
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     *
-     * @return
-     */
     public UserRole getUserRole() {
         return userRole;
     }
 
-    /**
-     *
-     * @param userRole
-     */
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<Person> getPersonCollection() {
         return personCollection;
     }
 
-    /**
-     *
-     * @param personCollection
-     */
     public void setPersonCollection(Collection<Person> personCollection) {
         this.personCollection = personCollection;
     }
@@ -162,7 +118,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.User[ username=" + username + " ]";
+        return "se.kth.ict.iv1201.temp.User[ username=" + username + " ]";
     }
     
 }

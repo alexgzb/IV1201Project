@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
@@ -29,17 +31,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "JobTranslation.findAll", query = "SELECT j FROM JobTranslation j"),
-    @NamedQuery(name = "JobTranslation.findByJobTranslationID", query = "SELECT j FROM JobTranslation j WHERE j.jobTranslationPK.jobTranslationID = :jobTranslationID"),
-    @NamedQuery(name = "JobTranslation.findByName", query = "SELECT j FROM JobTranslation j WHERE j.name = :name"),
-    @NamedQuery(name = "JobTranslation.findByJobID", query = "SELECT j FROM JobTranslation j WHERE j.jobTranslationPK.jobID = :jobID")})
+    @NamedQuery(name = "JobTranslation.findByJobTranslationID", query = "SELECT j FROM JobTranslation j WHERE j.jobTranslationID = :jobTranslationID"),
+    @NamedQuery(name = "JobTranslation.findByName", query = "SELECT j FROM JobTranslation j WHERE j.name = :name")})
 public class JobTranslation implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    /**
-     *
-     */
-    @EmbeddedId
-    protected JobTranslationPK jobTranslationPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "JobTranslationID")
+    private Integer jobTranslationID;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -51,124 +51,62 @@ public class JobTranslation implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "Description")
     private String description;
-    @JoinColumn(name = "JobID", referencedColumnName = "JobID", insertable = false, updatable = false)
+    @JoinColumn(name = "JobID", referencedColumnName = "JobID")
     @ManyToOne(optional = false)
-    private Job job;
+    private Job jobID;
     @JoinColumn(name = "LanguageCode", referencedColumnName = "LanguageCode")
     @ManyToOne(optional = false)
     private Language languageCode;
 
-    /**
-     *
-     */
     public JobTranslation() {
     }
 
-    /**
-     *
-     * @param jobTranslationPK
-     */
-    public JobTranslation(JobTranslationPK jobTranslationPK) {
-        this.jobTranslationPK = jobTranslationPK;
+    public JobTranslation(Integer jobTranslationID) {
+        this.jobTranslationID = jobTranslationID;
     }
 
-    /**
-     *
-     * @param jobTranslationPK
-     * @param name
-     * @param description
-     */
-    public JobTranslation(JobTranslationPK jobTranslationPK, String name, String description) {
-        this.jobTranslationPK = jobTranslationPK;
+    public JobTranslation(Integer jobTranslationID, String name, String description) {
+        this.jobTranslationID = jobTranslationID;
         this.name = name;
         this.description = description;
     }
 
-    /**
-     *
-     * @param jobTranslationID
-     * @param jobID
-     */
-    public JobTranslation(int jobTranslationID, int jobID) {
-        this.jobTranslationPK = new JobTranslationPK(jobTranslationID, jobID);
+    public Integer getJobTranslationID() {
+        return jobTranslationID;
     }
 
-    /**
-     *
-     * @return
-     */
-    public JobTranslationPK getJobTranslationPK() {
-        return jobTranslationPK;
+    public void setJobTranslationID(Integer jobTranslationID) {
+        this.jobTranslationID = jobTranslationID;
     }
 
-    /**
-     *
-     * @param jobTranslationPK
-     */
-    public void setJobTranslationPK(JobTranslationPK jobTranslationPK) {
-        this.jobTranslationPK = jobTranslationPK;
-    }
-
-    /**
-     *
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @param name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     *
-     * @param description
-     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Job getJob() {
-        return job;
+    public Job getJobID() {
+        return jobID;
     }
 
-    /**
-     *
-     * @param job
-     */
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJobID(Job jobID) {
+        this.jobID = jobID;
     }
 
-    /**
-     *
-     * @return
-     */
     public Language getLanguageCode() {
         return languageCode;
     }
 
-    /**
-     *
-     * @param languageCode
-     */
     public void setLanguageCode(Language languageCode) {
         this.languageCode = languageCode;
     }
@@ -176,7 +114,7 @@ public class JobTranslation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (jobTranslationPK != null ? jobTranslationPK.hashCode() : 0);
+        hash += (jobTranslationID != null ? jobTranslationID.hashCode() : 0);
         return hash;
     }
 
@@ -187,7 +125,7 @@ public class JobTranslation implements Serializable {
             return false;
         }
         JobTranslation other = (JobTranslation) object;
-        if ((this.jobTranslationPK == null && other.jobTranslationPK != null) || (this.jobTranslationPK != null && !this.jobTranslationPK.equals(other.jobTranslationPK))) {
+        if ((this.jobTranslationID == null && other.jobTranslationID != null) || (this.jobTranslationID != null && !this.jobTranslationID.equals(other.jobTranslationID))) {
             return false;
         }
         return true;
@@ -195,7 +133,7 @@ public class JobTranslation implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.JobTranslation[ jobTranslationPK=" + jobTranslationPK + " ]";
+        return "se.kth.ict.iv1201.temp.JobTranslation[ jobTranslationID=" + jobTranslationID + " ]";
     }
     
 }

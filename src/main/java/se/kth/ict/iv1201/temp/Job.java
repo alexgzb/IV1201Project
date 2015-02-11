@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -54,115 +54,62 @@ public class Job implements Serializable {
     @Column(name = "ToDate")
     @Temporal(TemporalType.DATE)
     private Date toDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "job")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobID")
     private Collection<Employment> employmentCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "job")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobID")
     private Collection<JobTranslation> jobTranslationCollection;
 
-    /**
-     *
-     */
     public Job() {
     }
 
-    /**
-     *
-     * @param jobID
-     */
     public Job(Integer jobID) {
         this.jobID = jobID;
     }
-    
-    /**
-     *
-     * @param jobID
-     * @param fromDate
-     * @param toDate
-     */
+
     public Job(Integer jobID, Date fromDate, Date toDate) {
         this.jobID = jobID;
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
 
-    /**
-     *
-     * @return
-     */
     public Integer getJobID() {
         return jobID;
     }
 
-    /**
-     *
-     * @param jobID
-     */
     public void setJobID(Integer jobID) {
         this.jobID = jobID;
     }
 
-    /**
-     *
-     * @return
-     */
     public Date getFromDate() {
         return fromDate;
     }
 
-    /**
-     *
-     * @param fromDate
-     */
     public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
 
-    /**
-     *
-     * @return
-     */
     public Date getToDate() {
         return toDate;
     }
 
-    /**
-     *
-     * @param toDate
-     */
     public void setToDate(Date toDate) {
         this.toDate = toDate;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<Employment> getEmploymentCollection() {
         return employmentCollection;
     }
 
-    /**
-     *
-     * @param employmentCollection
-     */
     public void setEmploymentCollection(Collection<Employment> employmentCollection) {
         this.employmentCollection = employmentCollection;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<JobTranslation> getJobTranslationCollection() {
         return jobTranslationCollection;
     }
 
-    /**
-     *
-     * @param jobTranslationCollection
-     */
     public void setJobTranslationCollection(Collection<JobTranslation> jobTranslationCollection) {
         this.jobTranslationCollection = jobTranslationCollection;
     }
@@ -189,7 +136,7 @@ public class Job implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.Job[ jobID=" + jobID + " ]";
+        return "se.kth.ict.iv1201.temp.Job[ jobID=" + jobID + " ]";
     }
     
 }
