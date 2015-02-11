@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -50,92 +50,48 @@ public class Language implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageCode")
     private Collection<JobTranslation> jobTranslationCollection;
 
-    /**
-     *
-     */
     public Language() {
     }
 
-    /**
-     *
-     * @param languageCode
-     */
     public Language(String languageCode) {
         this.languageCode = languageCode;
     }
 
-    /**
-     *
-     * @param languageCode
-     * @param name
-     */
     public Language(String languageCode, String name) {
         this.languageCode = languageCode;
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getLanguageCode() {
         return languageCode;
     }
 
-    /**
-     *
-     * @param languageCode
-     */
     public void setLanguageCode(String languageCode) {
         this.languageCode = languageCode;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @param name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<CompetenceTranslation> getCompetenceTranslationCollection() {
         return competenceTranslationCollection;
     }
 
-    /**
-     *
-     * @param competenceTranslationCollection
-     */
     public void setCompetenceTranslationCollection(Collection<CompetenceTranslation> competenceTranslationCollection) {
         this.competenceTranslationCollection = competenceTranslationCollection;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<JobTranslation> getJobTranslationCollection() {
         return jobTranslationCollection;
     }
 
-    /**
-     *
-     * @param jobTranslationCollection
-     */
     public void setJobTranslationCollection(Collection<JobTranslation> jobTranslationCollection) {
         this.jobTranslationCollection = jobTranslationCollection;
     }
@@ -162,7 +118,7 @@ public class Language implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.Language[ languageCode=" + languageCode + " ]";
+        return "se.kth.ict.iv1201.temp.Language[ languageCode=" + languageCode + " ]";
     }
     
 }

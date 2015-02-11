@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -45,64 +45,33 @@ public class UserRole implements Serializable {
     @OneToOne(optional = false)
     private User user;
 
-    /**
-     *
-     */
     public UserRole() {
     }
 
-    /**
-     *
-     * @param username
-     */
     public UserRole(String username) {
         this.username = username;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     *
-     * @param username
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     *
-     * @return
-     */
     public Role getRoleName() {
         return roleName;
     }
 
-    /**
-     *
-     * @param roleName
-     */
     public void setRoleName(Role roleName) {
         this.roleName = roleName;
     }
 
-    /**
-     *
-     * @return
-     */
     public User getUser() {
         return user;
     }
 
-    /**
-     *
-     * @param user
-     */
     public void setUser(User user) {
         this.user = user;
     }
@@ -129,7 +98,7 @@ public class UserRole implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.UserRole[ username=" + username + " ]";
+        return "se.kth.ict.iv1201.temp.UserRole[ username=" + username + " ]";
     }
     
 }

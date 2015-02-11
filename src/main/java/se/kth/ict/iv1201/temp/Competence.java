@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.model;
+package se.kth.ict.iv1201.temp;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -38,71 +38,40 @@ public class Competence implements Serializable {
     @Basic(optional = false)
     @Column(name = "CompetenceID")
     private Integer competenceID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competence")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceID")
     private Collection<CompetenceTranslation> competenceTranslationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "competenceID")
     private Collection<ApplicationCompetence> applicationCompetenceCollection;
 
-    /**
-     *
-     */
     public Competence() {
     }
 
-    /**
-     *
-     * @param competenceID
-     */
     public Competence(Integer competenceID) {
         this.competenceID = competenceID;
     }
 
-    /**
-     *
-     * @return
-     */
     public Integer getCompetenceID() {
         return competenceID;
     }
 
-    /**
-     *
-     * @param competenceID
-     */
     public void setCompetenceID(Integer competenceID) {
         this.competenceID = competenceID;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<CompetenceTranslation> getCompetenceTranslationCollection() {
         return competenceTranslationCollection;
     }
 
-    /**
-     *
-     * @param competenceTranslationCollection
-     */
     public void setCompetenceTranslationCollection(Collection<CompetenceTranslation> competenceTranslationCollection) {
         this.competenceTranslationCollection = competenceTranslationCollection;
     }
 
-    /**
-     *
-     * @return
-     */
     @XmlTransient
     public Collection<ApplicationCompetence> getApplicationCompetenceCollection() {
         return applicationCompetenceCollection;
     }
 
-    /**
-     *
-     * @param applicationCompetenceCollection
-     */
     public void setApplicationCompetenceCollection(Collection<ApplicationCompetence> applicationCompetenceCollection) {
         this.applicationCompetenceCollection = applicationCompetenceCollection;
     }
@@ -129,7 +98,7 @@ public class Competence implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.ict.iv1201.model.Competence[ competenceID=" + competenceID + " ]";
+        return "se.kth.ict.iv1201.temp.Competence[ competenceID=" + competenceID + " ]";
     }
     
 }
