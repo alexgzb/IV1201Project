@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package se.kth.ict.iv1201.controller;
 
 import javax.ejb.Stateless;
+import se.kth.ict.iv1201.model.dto.AccountDTO;
+import se.kth.ict.iv1201.model.dto.AccountResponse;
 
 /**
  *
@@ -14,6 +11,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class AccountController {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    public AccountResponse newAccount(AccountDTO data){
+        return new AccountResponse(true, "Test");   
+    }
 }

@@ -43,7 +43,7 @@ public class User implements Serializable {
     private String username;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 64)
     @Column(name = "Password")
     private String password;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")

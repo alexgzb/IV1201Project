@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/commonlayout.xhtml">
+
+    <ui:define name="title"></ui:define>
+    <ui:define name="content">
+                <h:form>
+                    <h:panelGrid>
+                        <h:outputLabel value="Username"/>
+                        <h:inputText id="username" value="#{accountView.username}"/>
+                        <h:outputLabel value="Password"/>
+                        <h:inputText id="password" value="#{accountView.password}"/>
+                        <h:outputLabel value="Firstname"/>
+                        <h:inputText id="firstname" value="#{accountView.firstname}"/>
+                        <h:outputLabel value="Lastname"/>
+                        <h:inputText id="lastname" value="#{accountView.lastname}"/>
+                        <h:outputLabel value="Email"/>
+                        <h:inputText id="email" value="#{accountView.email}"/>
+                        <h:outputLabel value="Social security number"/>
+                        <h:inputText id="ssn" value="#{accountView.ssn }"/>
+                    </h:panelGrid>
+                    <h:commandButton value="Make account" action="#{accountView.newAccount }"/>
+                </h:form>
+                <br/>
+                <h:outputLabel value="#{accountView.requestResponse}"/>
+    </ui:define>
+</ui:composition>
+
