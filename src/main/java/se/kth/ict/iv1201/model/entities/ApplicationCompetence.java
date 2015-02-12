@@ -55,12 +55,7 @@ public class ApplicationCompetence implements Serializable {
     public ApplicationCompetence() {
     }
 
-    public ApplicationCompetence(Integer applicationCompetenceID) {
-        this.applicationCompetenceID = applicationCompetenceID;
-    }
-
-    public ApplicationCompetence(Integer applicationCompetenceID, BigDecimal yearsOFExperience) {
-        this.applicationCompetenceID = applicationCompetenceID;
+    public ApplicationCompetence(BigDecimal yearsOFExperience) {
         this.yearsOFExperience = yearsOFExperience;
     }
 

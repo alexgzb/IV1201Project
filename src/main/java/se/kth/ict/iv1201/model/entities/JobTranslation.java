@@ -62,12 +62,8 @@ public class JobTranslation implements Serializable {
     public JobTranslation() {
     }
 
-    public JobTranslation(Integer jobTranslationID) {
-        this.jobTranslationID = jobTranslationID;
-    }
-
-    public JobTranslation(Integer jobTranslationID, String name, String description) {
-        this.jobTranslationID = jobTranslationID;
+    
+    public JobTranslation(String name, String description) {
         this.name = name;
         this.description = description;
     }

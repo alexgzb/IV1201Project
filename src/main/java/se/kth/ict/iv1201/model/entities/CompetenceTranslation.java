@@ -55,12 +55,7 @@ public class CompetenceTranslation implements Serializable {
     public CompetenceTranslation() {
     }
 
-    public CompetenceTranslation(Integer competenceTranslationID) {
-        this.competenceTranslationID = competenceTranslationID;
-    }
-
-    public CompetenceTranslation(Integer competenceTranslationID, String description) {
-        this.competenceTranslationID = competenceTranslationID;
+    public CompetenceTranslation(String description) {
         this.description = description;
     }
 

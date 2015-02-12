@@ -46,14 +46,6 @@ public class Competence implements Serializable {
     public Competence() {
     }
 
-    public Competence(Integer competenceID) {
-        this.competenceID = competenceID;
-    }
-
-    public Integer getCompetenceID() {
-        return competenceID;
-    }
-
     public void setCompetenceID(Integer competenceID) {
         this.competenceID = competenceID;
     }

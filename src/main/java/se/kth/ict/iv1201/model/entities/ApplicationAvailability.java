@@ -55,10 +55,6 @@ public class ApplicationAvailability implements Serializable {
     public ApplicationAvailability() {
     }
 
-    public ApplicationAvailability(Integer applicationAvailabilityID) {
-        this.applicationAvailabilityID = applicationAvailabilityID;
-    }
-
     public Integer getApplicationAvailabilityID() {
         return applicationAvailabilityID;
     }

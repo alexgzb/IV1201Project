@@ -63,12 +63,7 @@ public class Job implements Serializable {
     public Job() {
     }
 
-    public Job(Integer jobID) {
-        this.jobID = jobID;
-    }
-
-    public Job(Integer jobID, Date fromDate, Date toDate) {
-        this.jobID = jobID;
+    public Job(Date fromDate, Date toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
