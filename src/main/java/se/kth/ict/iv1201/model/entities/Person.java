@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.temp;
+package se.kth.ict.iv1201.model.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "PersonID")
     private Integer personID;
@@ -78,12 +78,8 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(Integer personID) {
-        this.personID = personID;
-    }
 
-    public Person(Integer personID, String firstname, String lastname, long ssn, String email) {
-        this.personID = personID;
+    public Person(String firstname, String lastname, long ssn, String email) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.ssn = ssn;
