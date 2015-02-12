@@ -36,9 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Employment.findByFromDate", query = "SELECT e FROM Employment e WHERE e.fromDate = :fromDate"),
     @NamedQuery(name = "Employment.findByToDate", query = "SELECT e FROM Employment e WHERE e.toDate = :toDate")})
 public class Employment implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "EmploymentID")
     private Integer employmentID;
@@ -62,12 +63,8 @@ public class Employment implements Serializable {
     public Employment() {
     }
 
-    public Employment(Integer employmentID) {
-        this.employmentID = employmentID;
-    }
 
-    public Employment(Integer employmentID, Date fromDate, Date toDate) {
-        this.employmentID = employmentID;
+    public Employment(Date fromDate, Date toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
@@ -136,5 +133,5 @@ public class Employment implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.Employment[ employmentID=" + employmentID + " ]";
     }
-    
+
 }

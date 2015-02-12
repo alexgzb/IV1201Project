@@ -34,9 +34,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "JobTranslation.findByJobTranslationID", query = "SELECT j FROM JobTranslation j WHERE j.jobTranslationID = :jobTranslationID"),
     @NamedQuery(name = "JobTranslation.findByName", query = "SELECT j FROM JobTranslation j WHERE j.name = :name")})
 public class JobTranslation implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "JobTranslationID")
     private Integer jobTranslationID;
@@ -61,12 +62,8 @@ public class JobTranslation implements Serializable {
     public JobTranslation() {
     }
 
-    public JobTranslation(Integer jobTranslationID) {
-        this.jobTranslationID = jobTranslationID;
-    }
-
-    public JobTranslation(Integer jobTranslationID, String name, String description) {
-        this.jobTranslationID = jobTranslationID;
+    
+    public JobTranslation(String name, String description) {
         this.name = name;
         this.description = description;
     }
@@ -135,5 +132,5 @@ public class JobTranslation implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.JobTranslation[ jobTranslationID=" + jobTranslationID + " ]";
     }
-    
+
 }

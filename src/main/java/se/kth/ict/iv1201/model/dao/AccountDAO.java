@@ -16,12 +16,11 @@ public class AccountDAO {
 
     @PersistenceContext(unitName = "rsPU")
     private EntityManager em;
-    
+
     // Temp method to test Persistance Unit
     // Remove later
-    public String  test(AccountDTO account) {
-        
-        
+    public String test(AccountDTO account) {
+
         System.out.println("DAO out!");
         User tempUser = new User("Wille", "pass");
         em.persist(tempUser);
@@ -31,6 +30,7 @@ public class AccountDAO {
 
     /**
      * Method that takes the AccountDTO to and creates a user and a person
+     *
      * @param accountDTO the data to insert to the tables
      */
     public void NewAccount(AccountDTO accountDTO) {
@@ -69,7 +69,7 @@ public class AccountDAO {
         String ssn = accountDTO.getSsn();
         User user = null;
         Person person = null;
-        
+
         //Checking if username is already used, if so return "username"
         user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", userName).getSingleResult();
         if (user != null) {
