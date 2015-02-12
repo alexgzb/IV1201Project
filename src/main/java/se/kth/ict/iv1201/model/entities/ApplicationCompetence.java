@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.ict.iv1201.temp;
+package se.kth.ict.iv1201.model.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
