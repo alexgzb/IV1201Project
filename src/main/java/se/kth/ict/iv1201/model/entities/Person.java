@@ -61,7 +61,7 @@ public class Person implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "SSN")
-    private long ssn;
+    private String ssn;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -78,6 +78,7 @@ public class Person implements Serializable {
 
     public Person() {
     }
+
 
     public Person(String firstname, String lastname, long ssn, String email) {
         this.firstname = firstname;
@@ -110,11 +111,11 @@ public class Person implements Serializable {
         this.lastname = lastname;
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

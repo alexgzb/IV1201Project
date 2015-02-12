@@ -14,10 +14,10 @@ public class AccountDTO {
     private String firstname;
     private String lastname;
     private String Email;
-    private long ssn;
+    private String ssn;
 
     public AccountDTO(String username, String password, String firstname,
-            String lastname, String Email, long ssn) {
+            String lastname, String Email, String ssn) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
@@ -66,11 +66,11 @@ public class AccountDTO {
         this.Email = Email;
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

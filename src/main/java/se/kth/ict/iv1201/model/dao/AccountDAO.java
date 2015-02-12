@@ -1,8 +1,6 @@
 package se.kth.ict.iv1201.model.dao;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
@@ -44,7 +42,7 @@ public class AccountDAO {
         String firstName = accountDTO.getFirstname();
         String lastName = accountDTO.getLastname();
         String email = accountDTO.getEmail();
-        Long ssn = accountDTO.getSsn();
+        String ssn = accountDTO.getSsn();
 
         newUser = new User(userName, password);
         em.persist(newUser);
@@ -68,7 +66,7 @@ public class AccountDAO {
         String firstName = accountDTO.getFirstname();
         String lastName = accountDTO.getLastname();
         String email = accountDTO.getEmail();
-        Long ssn = accountDTO.getSsn();
+        String ssn = accountDTO.getSsn();
         User user = null;
         Person person = null;
 

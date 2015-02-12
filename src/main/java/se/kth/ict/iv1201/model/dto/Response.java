@@ -1,21 +1,28 @@
 package se.kth.ict.iv1201.model.dto;
 
 /**
- * AccountResponse is a form of data transport object that contains all the
- * necessary information about how a request to the AccountController went. If
- * it succeeded, and if not what went wrong.
- *
- * @author iv1201
+ * Response is a data transport object designed to hold data
+ * concerning of how a calls within the system has gone. If contains a boolean
+ * regarding if the call was successful and two strings with information 
+ * about the calla.
+ * 
+ * @author Wilhelm
  */
-public class AccountResponse {
-
+public class Response {
+    
     private boolean success;
     private String statusMessage;
     private String errorMessage;
 
-    public AccountResponse(boolean succeeded, String message) {
+    public Response(boolean succeeded, String message) {
         this.success = succeeded;
         this.statusMessage = message;
+    }
+    
+    public Response(boolean succeeded, String message, String error) {
+        this.success = succeeded;
+        this.statusMessage = message;
+        this.errorMessage = error;
     }
 
     public boolean isSuccess() {
@@ -41,5 +48,5 @@ public class AccountResponse {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-
+    
 }

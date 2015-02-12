@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import se.kth.ict.iv1201.controller.AccountController;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
-import se.kth.ict.iv1201.model.dto.AccountResponse;
+import se.kth.ict.iv1201.model.dto.Response;
 
 /**
  * AccountView is a stateful session bean connected to a single user. It handles
@@ -24,8 +24,9 @@ public class AccountView {
     private String firstname;
     private String lastname;
     private String Email;
-    private long ssn;
+    private String ssn;
     private String requestResponse;
+    private String errorMessage;
     @Inject
     private AccountController controller;
 
@@ -47,10 +48,13 @@ public class AccountView {
      * @author Wilhelm
      */
     public void newAccount() {
-        System.out.println("Submit!");
-        AccountResponse newAccount = controller.newAccount(new AccountDTO(username, password, firstname,
+        Response newAccount = controller.newAccount(new AccountDTO(username, password, firstname,
                 lastname, Email, ssn));
         requestResponse = newAccount.getStatusMessage();
+        if (!newAccount.isSuccess())
+        {
+            errorMessage = newAccount.getErrorMessage();
+        }
     }
 
     public String getUsername() {
@@ -93,11 +97,11 @@ public class AccountView {
         this.Email = Email;
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 
@@ -108,4 +112,13 @@ public class AccountView {
     public void setRequestResponse(String requestResponse) {
         this.requestResponse = requestResponse;
     }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+    
 }
