@@ -80,11 +80,12 @@ public class Person implements Serializable {
     }
 
 
-    public Person(String firstname, String lastname, String ssn, String email) {
+    public Person(String firstname, String lastname, String ssn, String email, User user) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.ssn = ssn;
         this.email = email;
+        this.username = user;
     }
 
     public Integer getPersonID() {

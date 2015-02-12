@@ -2,6 +2,7 @@ package se.kth.ict.iv1201.model.dao;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.entities.Person;
@@ -46,7 +47,7 @@ public class AccountDAO {
 
         newUser = new User(userName, password);
         em.persist(newUser);
-        newPerson = new Person(firstName, lastName, ssn, email);
+        newPerson = new Person(firstName, lastName, ssn, email, newUser);
         em.persist(newPerson);
 
     }
@@ -70,25 +71,27 @@ public class AccountDAO {
         User user = null;
         Person person = null;
 
-        //Checking if username is already used, if so return "username"
-        user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", userName).getSingleResult();
-        if (user != null) {
+        try {
+            user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", userName).getSingleResult();
             return "username";
+        } catch (NoResultException e) {
+            // Fall through
         }
 
-        //Checking if email is already used, if so return "email"
-        person = em.createNamedQuery("Person.findByEmail", Person.class).setParameter("email", email).getSingleResult();
-        if (person != null) {
+        try {
+            person = em.createNamedQuery("Person.findByEmail", Person.class).setParameter("email", email).getSingleResult();
             return "email";
+        } catch (NoResultException e) {
+            // Fall through
         }
-
-        //Checking if ssn is already used, if so return "ssn"
-        person = em.createNamedQuery("Person.findBySsn", Person.class).setParameter("ssn", ssn).getSingleResult();
-        if (person != null) {
+        try {
+            person = em.createNamedQuery("Person.findBySsn", Person.class).setParameter("ssn", ssn).getSingleResult();
             return "ssn";
+        } catch (NoResultException e) {
+            // Fall through
         }
 
-        //If columns are available empty string is returned
+        //If all names are available empty string is returned
         return null;
     }
 
