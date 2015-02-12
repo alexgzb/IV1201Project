@@ -33,9 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ApplicationCompetence.findByApplicationCompetenceID", query = "SELECT a FROM ApplicationCompetence a WHERE a.applicationCompetenceID = :applicationCompetenceID"),
     @NamedQuery(name = "ApplicationCompetence.findByYearsOFExperience", query = "SELECT a FROM ApplicationCompetence a WHERE a.yearsOFExperience = :yearsOFExperience")})
 public class ApplicationCompetence implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "ApplicationCompetenceID")
     private Integer applicationCompetenceID;
@@ -54,12 +55,7 @@ public class ApplicationCompetence implements Serializable {
     public ApplicationCompetence() {
     }
 
-    public ApplicationCompetence(Integer applicationCompetenceID) {
-        this.applicationCompetenceID = applicationCompetenceID;
-    }
-
-    public ApplicationCompetence(Integer applicationCompetenceID, BigDecimal yearsOFExperience) {
-        this.applicationCompetenceID = applicationCompetenceID;
+    public ApplicationCompetence(BigDecimal yearsOFExperience) {
         this.yearsOFExperience = yearsOFExperience;
     }
 
@@ -119,5 +115,5 @@ public class ApplicationCompetence implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.ApplicationCompetence[ applicationCompetenceID=" + applicationCompetenceID + " ]";
     }
-    
+
 }

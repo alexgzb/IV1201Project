@@ -35,9 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ApplicationAvailability.findByFromDate", query = "SELECT a FROM ApplicationAvailability a WHERE a.fromDate = :fromDate"),
     @NamedQuery(name = "ApplicationAvailability.findByToDate", query = "SELECT a FROM ApplicationAvailability a WHERE a.toDate = :toDate")})
 public class ApplicationAvailability implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "ApplicationAvailabilityID")
     private Integer applicationAvailabilityID;
@@ -52,10 +53,6 @@ public class ApplicationAvailability implements Serializable {
     private Application personID;
 
     public ApplicationAvailability() {
-    }
-
-    public ApplicationAvailability(Integer applicationAvailabilityID) {
-        this.applicationAvailabilityID = applicationAvailabilityID;
     }
 
     public Integer getApplicationAvailabilityID() {
@@ -114,5 +111,5 @@ public class ApplicationAvailability implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.ApplicationAvailability[ applicationAvailabilityID=" + applicationAvailabilityID + " ]";
     }
-    
+
 }
