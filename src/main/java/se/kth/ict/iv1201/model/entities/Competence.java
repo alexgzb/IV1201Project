@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Competence implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "CompetenceID")
     private Integer competenceID;

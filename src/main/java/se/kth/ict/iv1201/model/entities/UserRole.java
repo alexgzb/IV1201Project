@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UserRole.findAll", query = "SELECT u FROM UserRole u"),
     @NamedQuery(name = "UserRole.findByUsername", query = "SELECT u FROM UserRole u WHERE u.username = :username")})
 public class UserRole implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -100,5 +101,5 @@ public class UserRole implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.UserRole[ username=" + username + " ]";
     }
-    
+
 }
