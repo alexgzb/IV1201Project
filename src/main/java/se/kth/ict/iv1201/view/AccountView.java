@@ -29,11 +29,23 @@ public class AccountView {
     @Inject
     private AccountController controller;
 
+    /*
+     * Only here for testing purpuses and not be deployed to the final product.  
+     *
+     * @author Wilhelm
+     */
     @PostConstruct
     public void test() {
         System.out.println("Post contruct test!");
     }
-
+    
+    /*
+     * The method newAccount takes the data from the users form and contructes 
+     * a DTO containing that information. This information is then passed to the
+     * controller for further actions to be taken.
+     *
+     * @author Wilhelm
+     */
     public void newAccount() {
         System.out.println("Submit!");
         AccountResponse newAccount = controller.newAccount(new AccountDTO(username, password, firstname,

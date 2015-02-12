@@ -1,6 +1,8 @@
 package se.kth.ict.iv1201.model.dao;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
@@ -11,18 +13,23 @@ import se.kth.ict.iv1201.model.entities.User;
  * AccountDAO class to manage account related data to the database
  *
  */
+//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 @Stateless
 public class AccountDAO {
 
-    @PersistenceContext(name = "RsPU")
+    @PersistenceContext(unitName = "rsPU")
     private EntityManager em;
     
     // Temp method to test Persistance Unit
     // Remove later
-    public void  test(AccountDTO account) {
+    public String  test(AccountDTO account) {
         
-        System.out.println("TESTING:: USERNAME " + em.createNamedQuery("User.findAll", User.class).getFirstResult());
         
+        System.out.println("DAO out!");
+        User tempUser = new User("Wille", "pass");
+        em.persist(tempUser);
+        tempUser = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", "borg").getSingleResult();
+        return tempUser.getUsername();
     }
 
     /**
