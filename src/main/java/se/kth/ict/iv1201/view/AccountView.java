@@ -8,7 +8,8 @@ import javax.inject.Named;
 import se.kth.ict.iv1201.controller.AccountController;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.CompetencesDTO;
-import se.kth.ict.iv1201.model.dto.Response;
+import se.kth.ict.iv1201.model.dto.ResponseDTO;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * AccountView is a statefull session bean connected to a single user. It handles
@@ -17,6 +18,7 @@ import se.kth.ict.iv1201.model.dto.Response;
  *
  * @author Wilhelm
  */
+@Log
 @Named("accountView")
 @RequestScoped
 public class AccountView {
@@ -42,7 +44,7 @@ public class AccountView {
      * @author Wilhelm
      */
     public void newAccount() {
-        Response newAccount = controller.newAccount(new AccountDTO(username, password, firstname,
+        ResponseDTO newAccount = controller.newAccount(new AccountDTO(username, password, firstname,
                 lastname, Email, ssn));
         requestResponse = newAccount.getStatusMessage();
         if (!newAccount.isSuccess())

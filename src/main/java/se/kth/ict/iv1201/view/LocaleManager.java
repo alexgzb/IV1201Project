@@ -4,10 +4,12 @@ import java.util.Locale;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * Sets the correct locale for the entire application.
  */
+@Log
 @Named(value="locale")
 @ApplicationScoped
 public class LocaleManager {

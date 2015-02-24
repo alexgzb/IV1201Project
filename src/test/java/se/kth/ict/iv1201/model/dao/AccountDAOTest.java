@@ -46,7 +46,6 @@ public class AccountDAOTest {
      * Test of NewAccount method, of class AccountDAO.
      */
     @Test
-    //@Ignore("FAAAAAN")
     public void testVerifyUniqueAccount_usernameAlreadyTaken_returnStringUsername() {
         AccountDTO acccount = new AccountDTO("borg", "123456789", "Anders", "Borg", "anders@borg.se", "4709202362");
         String result = accountDao.VerifyUniqueAccount(acccount);
@@ -56,31 +55,29 @@ public class AccountDAOTest {
     
     
 
-//    /**
-//     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
-//     * email already taken scenario
-//     */
-//    @Test
-//    @Ignore("vänta med denna")
-//    public void testVerifyUniqueAccount_emailAlreadyTaken_returnStringEmail() {
-//        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@strand.kth.se", "4709202362");
-//        String result = accountDao.VerifyUniqueAccount(acccount);
-//        String expected = "email";
-//        assertEquals(expected, result);
-//    }
-//    
-//    
-//    /**
-//     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
-//     * email already taken scenario
-//     */
-//    @Test
-//    @Ignore("vänta med denna")
-//    public void testVerifyUniqueAccount_ssnAlreadyTaken_returnStringSsn() {
-//        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@a.se", "196712121211");
-//        String result = accountDao.VerifyUniqueAccount(acccount);
-//        String expected = "ssn";
-//        assertEquals(expected, result);
-//    }
+    /**
+     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
+     * email already taken scenario
+     */
+    @Test
+    public void testVerifyUniqueAccount_emailAlreadyTaken_returnStringEmail() {
+        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@strand.kth.se", "4709202362");
+        String result = accountDao.VerifyUniqueAccount(acccount);
+        String expected = "email";
+        assertEquals(expected, result);
+    }
+
+    
+    /**
+     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
+     * email already taken scenario
+     */
+    @Test
+    public void testVerifyUniqueAccount_ssnAlreadyTaken_returnStringSsn() {
+        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@a.se", "196712121211");
+        String result = accountDao.VerifyUniqueAccount(acccount);
+        String expected = "ssn";
+        assertEquals(expected, result);
+    }
 
 }
