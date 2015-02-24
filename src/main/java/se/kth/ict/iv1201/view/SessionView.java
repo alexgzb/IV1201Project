@@ -3,7 +3,6 @@ package se.kth.ict.iv1201.view;
 
 
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -65,15 +64,17 @@ public class SessionView implements Serializable {
      * @return URL to the resource that belongs to the user's specific user group
      */
     public String login() {
+        String resourceURL = "loginerror";
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(this.username, this.password);
+            resourceURL = getUserResourceURL(controller.getUserRole(this.username));
         } catch (ServletException ex) {
             //Fall through
         }
 
-        return getUserResourceURL(controller.getUserRole(this.username));
+        return resourceURL;
     }
 
     /**

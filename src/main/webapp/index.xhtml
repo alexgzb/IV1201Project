@@ -9,33 +9,11 @@
     <ui:define name="title">Index #{messages.page}</ui:define>
     <ui:define name="content">
         <div>
-            Hello from Facelets
-            <br />
-            <div>
-                <!--
-                <h:form id="login" onsubmit="document.getElementById('login').action='j_security_check';" prependId="false">
-                    <h:panelGrid>
-                        <h:outputLabel value="Username "/>
-                        <h:inputText id="j_username"/>
-                        <h:outputLabel value="Password"/>
-                        <h:inputSecret id="j_password"/>
-                    </h:panelGrid>
-                    <h:commandButton value="Login"/>
-                </h:form>
-                -->
-                <h:form>
-                    <h:panelGrid>
-                        <h:outputLabel value="Username "/>
-                        <h:inputText id="j_username" required="true" value="#{sessionView.username}"/>
-                        <h:outputLabel value="Password"/>
-                        <h:inputSecret id="j_password" required="true" value="#{sessionView.password}"/>
-                    </h:panelGrid>
-                    <h:commandButton value="Login" action="#{sessionView.login()}"/>
-                </h:form>
-            </div>
-            <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
-            <br/>
+            <!-- <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+            <br/> -->
             <h:link outcome="newAccount" value="New account page" />
+            <br/>
+            <h:link outcome="loginindex" value="Login" />
         </div>
     </ui:define>
 </ui:composition>
