@@ -2,13 +2,16 @@
 package se.kth.ict.iv1201.view;
 
 
+import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import se.kth.ict.iv1201.controller.SessionController;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * Session bean that handles login and logout protocols. Directs users to their respective resources
@@ -16,8 +19,9 @@ import se.kth.ict.iv1201.controller.SessionController;
  * @author Christian Schreil
  */
 @Named("sessionView")
-@RequestScoped
-public class SessionView {
+@SessionScoped
+@Log
+public class SessionView implements Serializable {
 
     private String username;
     private String password;

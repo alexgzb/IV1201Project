@@ -11,7 +11,8 @@ import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.CompetencesDTO;
-import se.kth.ict.iv1201.model.dto.Response;
+import se.kth.ict.iv1201.model.dto.ResponseDTO;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * AccountController is an enterprise bean designed to take calls from the
@@ -21,6 +22,7 @@ import se.kth.ict.iv1201.model.dto.Response;
  * @author Wilhelm
  */
 @Stateless
+@Log
 public class AccountController {
 
     private Verification verification;
@@ -41,7 +43,7 @@ public class AccountController {
      * request that has been done and a boolean that is true if the request went
      * well.
      */
-    public Response newAccount(AccountDTO data) {
+    public ResponseDTO newAccount(AccountDTO data) {
         System.out.println(data.getUsername());
         int k = 0;
         for (int i = 0; i < 100000; i++) {
@@ -50,16 +52,16 @@ public class AccountController {
             }
         }
         System.out.println(data.getUsername() + k);
-        Response verify = verification.verifyAccount(data);
+        ResponseDTO verify = verification.verifyAccount(data);
         if (!verify.isSuccess()) {
             return verify;
         }
         String exists = accountDAO.VerifyUniqueAccount(data);
         if (exists != null) {
-            return new Response(false, "newAccountFailed", exists + "Used");
+            return new ResponseDTO(false, "newAccountFailed", exists + "Used");
         }
         accountDAO.NewAccount(data);
-        return new Response(true, "accountCreated");
+        return new ResponseDTO(true, "accountCreated");
     }
 
     /**

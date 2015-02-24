@@ -16,11 +16,13 @@ import se.kth.ict.iv1201.model.entities.Person;
 import se.kth.ict.iv1201.model.entities.User;
 import se.kth.ict.iv1201.model.entities.Role;
 import se.kth.ict.iv1201.model.entities.UserRole;
+import se.kth.ict.iv1201.util.log.Log;
 /**
  * AccountDAO class to manage account related data to the database
  *
  */
 @Stateless
+@Log
 public class AccountDAO {
 
     @PersistenceContext(unitName = "rsPU")

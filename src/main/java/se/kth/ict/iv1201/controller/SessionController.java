@@ -4,6 +4,7 @@ package se.kth.ict.iv1201.controller;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * Session controller that retrieves key data about a user's permission and rights.
@@ -11,6 +12,7 @@ import se.kth.ict.iv1201.model.dao.AccountDAO;
  */
 
 @Stateless
+@Log
 public class SessionController {
     
     @EJB
