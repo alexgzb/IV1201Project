@@ -21,7 +21,24 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    
+    
+    <!-- Set index to HTTPS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Index</web-resource-name>
+            <description/>
+            <url-pattern>/faces/loginindex.xhtml</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    
     <!-- Authorization Start -->
+    <!-- Authorization for applicants -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Applicant Pages</web-resource-name>
@@ -37,6 +54,8 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    
+    <!-- Authorization for recruiters -->
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Recruiter Pages</web-resource-name>
@@ -53,6 +72,7 @@
         </user-data-constraint>
     </security-constraint>
     <!-- Authorization End -->
+    
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>JDBCRealm</realm-name>

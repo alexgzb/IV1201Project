@@ -1,3 +1,4 @@
+/*
 package se.kth.ict.iv1201.model;
 
 import javax.inject.Inject;
@@ -31,3 +32,5 @@ public class GreeterTest {
         greeter.greet(System.out, "Earthling");
     }
 }
+
+*/

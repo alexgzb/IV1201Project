@@ -1,25 +1,25 @@
 package se.kth.ict.iv1201.model.dto;
 
 /**
- * Response is a data transport object designed to hold data
- * concerning of how a calls within the system has gone. If contains a boolean
+ * ResponseDTO is a data transport object designed to hold data
+ concerning of how a calls within the system has gone. If contains a boolean
  * regarding if the call was successful and two strings with information 
  * about the calla.
  * 
  * @author Wilhelm
  */
-public class Response {
+public class ResponseDTO {
     
     private boolean success;
     private String statusMessage;
     private String errorMessage;
 
-    public Response(boolean succeeded, String message) {
+    public ResponseDTO(boolean succeeded, String message) {
         this.success = succeeded;
         this.statusMessage = message;
     }
     
-    public Response(boolean succeeded, String message, String error) {
+    public ResponseDTO(boolean succeeded, String message, String error) {
         this.success = succeeded;
         this.statusMessage = message;
         this.errorMessage = error;

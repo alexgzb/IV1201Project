@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/templates/commonlayout.xhtml">
+
+    <ui:define name="title">Login Portal #{messages.page}</ui:define>
+    <ui:define name="content">
+        <div>
+            <h:form>
+                <h:panelGrid>
+                    <h:outputLabel value="Username"/>
+                    <h:inputText id="j_username" required="true" value="#{sessionView.username}"/>
+                    <h:outputLabel value="Password"/>
+                    <h:inputSecret id="j_password" required="true" value="#{sessionView.password}"/>
+                </h:panelGrid>
+                <h:commandButton value="Login" action="#{sessionView.login()}"/>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+

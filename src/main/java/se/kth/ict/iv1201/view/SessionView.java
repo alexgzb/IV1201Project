@@ -2,13 +2,15 @@
 package se.kth.ict.iv1201.view;
 
 
-import javax.enterprise.context.RequestScoped;
+import java.io.Serializable;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import se.kth.ict.iv1201.controller.SessionController;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * Session bean that handles login and logout protocols. Directs users to their respective resources
@@ -16,8 +18,9 @@ import se.kth.ict.iv1201.controller.SessionController;
  * @author Christian Schreil
  */
 @Named("sessionView")
-@RequestScoped
-public class SessionView {
+@SessionScoped
+@Log
+public class SessionView implements Serializable {
 
     private String username;
     private String password;
@@ -61,15 +64,17 @@ public class SessionView {
      * @return URL to the resource that belongs to the user's specific user group
      */
     public String login() {
+        String resourceURL = "loginerror";
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(this.username, this.password);
+            resourceURL = getUserResourceURL(controller.getUserRole(this.username));
         } catch (ServletException ex) {
             //Fall through
         }
 
-        return getUserResourceURL(controller.getUserRole(this.username));
+        return resourceURL;
     }
 
     /**
