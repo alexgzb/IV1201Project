@@ -20,7 +20,7 @@ public class Verification {
     public Response verifyAccount(AccountDTO data) {
 
         if (data.getPassword().length() < 8) {
-            return new Response(false, "Password verification faild.", "Password is to short, minimum of 8 charactars is required.");
+            return new Response(false, "Password verification failed.", "Password is too short, minimum of 8 charactars is required.");
         }
         return new Response(true, "All account data is valid.");
     }
