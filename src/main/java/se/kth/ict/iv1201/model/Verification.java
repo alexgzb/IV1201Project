@@ -18,9 +18,11 @@ public class Verification {
      * and two strings with information about the tests.
      */
     public Response verifyAccount(AccountDTO data) {
+
         if (data.getPassword().length() < 8) {
             return new Response(false, "passwordVerFaild", "min8Char");
         }
         return new Response(true, "All account data is valid.");
     }
+
 }
