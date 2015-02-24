@@ -2,11 +2,16 @@ package se.kth.ict.iv1201.model.dao;
 
 import java.io.UnsupportedEncodingException;
 import java.security.*;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
+import se.kth.ict.iv1201.model.dto.CompetencesDTO;
+import se.kth.ict.iv1201.model.entities.CompetenceTranslation;
+import se.kth.ict.iv1201.model.entities.Language;
 import se.kth.ict.iv1201.model.entities.Person;
 import se.kth.ict.iv1201.model.entities.User;
 import se.kth.ict.iv1201.model.entities.Role;
@@ -33,6 +38,33 @@ public class AccountDAO {
     }
 
     /**
+     * Returns all competences of the selected language form the database, if no
+     * result were found null is returned. If data is found it is returned in a
+     * DTO.
+     * 
+     * @param langCode The selected language for the competences.
+     * @return 
+     */
+    public CompetencesDTO getCompetences(String langCode) {
+        Language lang = em.createNamedQuery("Language.findByLanguageCode", Language.class).setParameter("languageCode", langCode).getSingleResult();
+        Query query = em.createQuery("select c from CompetenceTranslation c where c.languageCode = :code");
+        query.setParameter("code", lang);
+        List<CompetenceTranslation> result = query.getResultList();
+        if (result.size() < 1){
+            return null;
+        }
+        String[] des = new String[result.size()];
+        int[] CID = new int[result.size()];
+        int i = 0;
+        for (CompetenceTranslation c : result){
+            des[i] = c.getDescription();
+            CID[i] = c.getCompetenceID().hashCode();
+            i++;
+        }
+        return new CompetencesDTO(des, CID);
+    }
+
+    /**
      * Method that takes the AccountDTO to and creates a user and a person.
      * The user is then mapped to its specific role to ensure proper authentication
      * and authorization.
@@ -52,7 +84,6 @@ public class AccountDAO {
         String email = accountDTO.getEmail();
         String ssn = accountDTO.getSsn();
 
-        
         newUser = new User(userName, password);
         em.persist(newUser);
         newPerson = new Person(firstName, lastName, ssn, email, newUser);

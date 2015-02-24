@@ -1,15 +1,17 @@
 package se.kth.ict.iv1201.view;
 
-import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import se.kth.ict.iv1201.controller.AccountController;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
+import se.kth.ict.iv1201.model.dto.CompetencesDTO;
 import se.kth.ict.iv1201.model.dto.Response;
 
 /**
- * AccountView is a stateful session bean connected to a single user. It handles
+ * AccountView is a statefull session bean connected to a single user. It handles
  * all calls from the users web interface regarding the users account details
  * and forwards the requests to an AccountController.
  *
@@ -27,21 +29,13 @@ public class AccountView {
     private String ssn;
     private String requestResponse;
     private String errorMessage;
+    private String[] competence;
+    private int[] competenceID;
     @Inject
     private AccountController controller;
-
-    /*
-     * Only here for testing purpuses and not be deployed to the final product.  
-     *
-     * @author Wilhelm
-     */
-    @PostConstruct
-    public void test() {
-        System.out.println("Post contruct test!");
-    }
     
-    /*
-     * The method newAccount takes the data from the users form and contructes 
+    /**
+     * The method newAccount takes the data from the users form and constructs 
      * a DTO containing that information. This information is then passed to the
      * controller for further actions to be taken.
      *
@@ -55,6 +49,36 @@ public class AccountView {
         {
             errorMessage = newAccount.getErrorMessage();
         }
+    }
+    
+    /**
+     * The method getCompetences will send a request to the account controller
+     * for the currently available competences in the database for the currently
+     * selected language on the web site and save it to the bean for viewing
+     * on the site. 
+     *
+     * @author Wilhelm
+     */
+    public void getCompetences(String langCode){
+        CompetencesDTO data = controller.getCompetences(langCode);
+         if(data == null){
+             errorMessage = "competencesError";
+             competence = null;
+             competenceID = null;
+         }
+         else{
+             competence = data.getDescription();
+             competenceID = data.getCompetenceID();
+         }
+        
+    }
+
+    public String[] getCompetence() {
+        return competence;
+    }
+
+    public int[] getCompetenceID() {
+        return competenceID;
     }
 
     public String getUsername() {
@@ -120,5 +144,4 @@ public class AccountView {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-    
 }

@@ -8,27 +8,34 @@
 
     <ui:define name="title"></ui:define>
     <ui:define name="content">
-                <h:form>
-                    <h:panelGrid>
-                        <h:outputLabel value="Username"/>
-                        <h:inputText id="username" value="#{accountView.username}"/>
-                        <h:outputLabel value="Password"/>
-                        <h:inputText id="password" value="#{accountView.password}"/>
-                        <h:outputLabel value="Firstname"/>
-                        <h:inputText id="firstname" value="#{accountView.firstname}"/>
-                        <h:outputLabel value="Lastname"/>
-                        <h:inputText id="lastname" value="#{accountView.lastname}"/>
-                        <h:outputLabel value="Email"/>
-                        <h:inputText id="email" value="#{accountView.email}"/>
-                        <h:outputLabel value="Social security number"/>
-                        <h:inputText id="ssn" value="#{accountView.ssn }"/>
-                    </h:panelGrid>
-                    <h:commandButton value="Make account" action="#{accountView.newAccount }"/>
-                </h:form>
-                <br/>
-                <h:outputLabel value="#{accountView.requestResponse}"/>
-                <br/>
-                <h:outputLabel value="#{accountView.errorMessage}"/>
+        <h:form>
+            <h:panelGrid>
+                <h:outputLabel value="#{messages.username}"/>
+                <h:inputText id="username" value="#{accountView.username}"/>
+                <h:outputLabel value="#{messages.password}"/>
+                <h:inputText id="password" value="#{accountView.password}"/>
+                <h:outputLabel value="#{messages.firstname}"/>
+                <h:inputText id="firstname" value="#{accountView.firstname}"/>
+                <h:outputLabel value="#{messages.lastname}"/>
+                <h:inputText id="lastname" value="#{accountView.lastname}"/>
+                <h:outputLabel value="#{messages.email}"/>
+                <h:inputText id="email" value="#{accountView.email}"/>
+                <h:outputLabel value="#{messages.ssn}"/>
+                <h:inputText id="ssn" value="#{accountView.ssn }"/>
+                <h:commandLink action="#{accountView.getCompetences(messages.code)}"> 
+                    <input type="submit" value="Test comp" />
+                </h:commandLink>
+            </h:panelGrid>
+            <h:commandButton value="#{messages.makeAcc}" action="#{accountView.newAccount}"/>
+        </h:form>
+        <br/>
+        <h:outputLabel value="#{messages[accountView.requestResponse]}"/>
+        <br/>
+        <h:outputLabel value="#{messages[accountView.errorMessage]}"/>
+        <br/>
+        <ui:repeat value="#{accountView.competence}" var="comp">
+            #{comp}<br/>
+        </ui:repeat>
     </ui:define>
 </ui:composition>
 
