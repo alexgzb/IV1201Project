@@ -3,9 +3,14 @@ package se.kth.ict.iv1201.controller;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
+import se.kth.ict.iv1201.model.dto.CompetencesDTO;
 import se.kth.ict.iv1201.model.dto.Response;
 
 /**
@@ -37,15 +42,34 @@ public class AccountController {
      * well.
      */
     public Response newAccount(AccountDTO data) {
+        System.out.println(data.getUsername());
+        int k = 0;
+        for (int i = 0; i < 100000; i++) {
+            for (int j = 0; j < 100000; j++) {
+                k = k + i + j;
+            }
+        }
+        System.out.println(data.getUsername() + k);
         Response verify = verification.verifyAccount(data);
         if (!verify.isSuccess()) {
             return verify;
         }
         String exists = accountDAO.VerifyUniqueAccount(data);
-        if (exists != null){
-            return new Response(false, "Creating account faild.", "The selected " + exists + " has been taken.");
+        if (exists != null) {
+            return new Response(false, "newAccountFailed", exists + "Used");
         }
         accountDAO.NewAccount(data);
-        return new Response(true,"Account \"" + data.getUsername() + "\" has been created.");
+        return new Response(true, "accountCreated");
+    }
+
+    /**
+     * Sends a request to the accontDAO to get all the competences for the
+     * selected language, and returns the answer.
+     * 
+     * @param langCode The selected language for the view.
+     * @return
+     */
+    public CompetencesDTO getCompetences(String langCode) {
+        return accountDAO.getCompetences(langCode);
     }
 }
