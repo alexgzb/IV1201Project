@@ -10,6 +10,7 @@ import javax.ejb.TransactionManagementType;
 import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
+import se.kth.ict.iv1201.model.dto.ApplicationDTO;
 import se.kth.ict.iv1201.model.dto.CompetencesDTO;
 import se.kth.ict.iv1201.model.dto.ResponseDTO;
 import se.kth.ict.iv1201.util.log.Log;
@@ -23,6 +24,7 @@ import se.kth.ict.iv1201.util.log.Log;
  */
 @Stateless
 @Log
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class AccountController {
 
     private Verification verification;
@@ -39,19 +41,12 @@ public class AccountController {
      * the the data entered by the user for their new account.
      *
      * @param data The data the user entered for the new account.
-     * @return AccountResponse Containing a string with information about the
+     * @return ResponseDTO containing a string with information about the
      * request that has been done and a boolean that is true if the request went
      * well.
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public ResponseDTO newAccount(AccountDTO data) {
-        System.out.println(data.getUsername());
-        int k = 0;
-        for (int i = 0; i < 100000; i++) {
-            for (int j = 0; j < 100000; j++) {
-                k = k + i + j;
-            }
-        }
-        System.out.println(data.getUsername() + k);
         ResponseDTO verify = verification.verifyAccount(data);
         if (!verify.isSuccess()) {
             return verify;
@@ -69,9 +64,29 @@ public class AccountController {
      * selected language, and returns the answer.
      * 
      * @param langCode The selected language for the view.
-     * @return
+     * @return 
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public CompetencesDTO getCompetences(String langCode) {
         return accountDAO.getCompetences(langCode);
+    }
+    
+    /**
+     * Makes all required calls to the model for verifying and saving
+     * the the data entered by the user for their new application.
+     * 
+     * @param data Application data to be handled
+     * @return ResponseDTO Containing a string with information about the
+     * request that has been done and a boolean that is true if the request went
+     * well. 
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public ResponseDTO addApplication(ApplicationDTO data){
+        ResponseDTO response = verification.verifyApplication(data);
+        if (!response.isSuccess()){
+            return response;
+        }
+        accountDAO.addApplication(data);
+        return new ResponseDTO(true, "applicationCreated");
     }
 }
