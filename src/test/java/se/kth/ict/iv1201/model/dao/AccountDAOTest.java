@@ -19,12 +19,10 @@ import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.entities.Person;
 import se.kth.ict.iv1201.model.entities.User;
 
-
 /**
  * Test class for the AccountDAO
  *
  */
-
 @RunWith(Arquillian.class)
 public class AccountDAOTest {
 
@@ -32,7 +30,7 @@ public class AccountDAOTest {
     public static JavaArchive createDeployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
                 .addPackage(AccountDAO.class.getPackage())
-                .addClasses(AccountDAO.class,Person.class,User.class)
+                .addClasses(AccountDAO.class, Person.class, User.class)
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         System.out.println(jar.toString(true));
@@ -46,14 +44,34 @@ public class AccountDAOTest {
      * Test of NewAccount method, of class AccountDAO.
      */
     @Test
+    public void testVerifyUniqueAccount_allOK_returnNull() {
+        AccountDTO acccount = new AccountDTO("nottaken", "123456789", "Anders", "Borg", "a@b.cd", "1111111111");
+        String result = accountDao.VerifyUniqueAccount(acccount);
+        String expected = null;
+        assertEquals(expected, result);
+    }
+    
+        /**
+     * Test of NewAccount method, of class AccountDAO.
+     */
+    @Test
+    public void testVerifyUniqueAccount_illegalCharactersUsername_returnNull() {
+        AccountDTO acccount = new AccountDTO("http://google.se", "123456789", "Anders", "Borg", "a@b.cd", "1111111111");
+        String result = accountDao.VerifyUniqueAccount(acccount);
+        String expected = null;
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Test of NewAccount method, of class AccountDAO.
+     */
+    @Test
     public void testVerifyUniqueAccount_usernameAlreadyTaken_returnStringUsername() {
         AccountDTO acccount = new AccountDTO("borg", "123456789", "Anders", "Borg", "anders@borg.se", "4709202362");
         String result = accountDao.VerifyUniqueAccount(acccount);
         String expected = "username";
         assertEquals(expected, result);
     }
-    
-    
 
     /**
      * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
@@ -67,7 +85,6 @@ public class AccountDAOTest {
         assertEquals(expected, result);
     }
 
-    
     /**
      * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
      * email already taken scenario
