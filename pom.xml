@@ -87,7 +87,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
-            <version>1.0.0.CR3</version>
+            <version>1.0.0.CR4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -96,12 +96,26 @@
             <version>4.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Added Prettyfaces for JSF 2.x __Alex__ -->
+        
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-servlet</artifactId>
+            <version>2.0.12.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-config-prettyfaces</artifactId>
+            <version>2.0.12.Final</version>
+        </dependency>
+        
     </dependencies>
     
-    <build>      
+    <build>    
         <testResources>
             <testResource>
-                <directory>src/test/resources</directory>
+                <directory>src/test/resources/</directory>
             </testResource>
             <testResource>
                 <directory>src/test/resources/resources-glassfish-embedded/</directory>
