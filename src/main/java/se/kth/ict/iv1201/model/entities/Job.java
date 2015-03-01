@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Job.findAll", query = "SELECT j FROM Job j"),
     @NamedQuery(name = "Job.findByJobID", query = "SELECT j FROM Job j WHERE j.jobID = :jobID"),
     @NamedQuery(name = "Job.findByFromDate", query = "SELECT j FROM Job j WHERE j.fromDate = :fromDate"),
-    @NamedQuery(name = "Job.findByToDate", query = "SELECT j FROM Job j WHERE j.toDate = :toDate")})
+    @NamedQuery(name = "Job.findByToDate", query = "SELECT j FROM Job j WHERE j.toDate = :toDate"),
+    @NamedQuery(name = "Job.findAllFullDescription", query = "SELECT NEW se.kth.ict.iv1201.model.dto.JobDTO(j.jobID,k.name,k.description,j.fromDate,j.toDate) FROM Job j JOIN j.jobTranslationCollection k WHERE k.languageCode = :lang")})
 public class Job implements Serializable {
 
     private static final long serialVersionUID = 1L;

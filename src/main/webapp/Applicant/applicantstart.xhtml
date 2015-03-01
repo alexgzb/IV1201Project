@@ -12,7 +12,7 @@
             <h:form>
                 <h:commandButton value="Logout" action="#{sessionView.logout()}"/>
             </h:form>
-            <p>WELCOME APPLICANT!</p>
+            <h:outputLabel value="#{messages.welcomeApplicant}" />
         </div>
     </ui:define>
 </ui:composition>

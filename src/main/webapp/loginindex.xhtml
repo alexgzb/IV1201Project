@@ -16,7 +16,7 @@
                     <h:outputLabel value="Password"/>
                     <h:inputSecret id="j_password" required="true" value="#{sessionView.password}"/>
                 </h:panelGrid>
-                <h:commandButton value="Login" action="#{sessionView.login()}"/>
+                <h:commandButton value="#{messages.loginText}" action="#{sessionView.login()}"/>
             </h:form>
         </div>
     </ui:define>
