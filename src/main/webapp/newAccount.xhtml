@@ -4,6 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 template="/templates/commonlayout.xhtml">
 
     <ui:define name="title"></ui:define>
@@ -11,17 +12,17 @@
         <h:form>
             <h:panelGrid>
                 <h:outputLabel value="#{messages.username}"/>
-                <h:inputText id="username" value="#{accountView.username}"/>
+                <h:inputText id="username" value="#{accountView.username}" pt:required="" pt:type="text" />
                 <h:outputLabel value="#{messages.password}"/>
-                <h:inputText id="password" value="#{accountView.password}"/>
+                <h:inputText id="password" value="#{accountView.password}" pt:required="" pt:type="password" pt:placeholder="#{messages.enter8CharsMinimum}"/>
                 <h:outputLabel value="#{messages.firstname}"/>
-                <h:inputText id="firstname" value="#{accountView.firstname}"/>
+                <h:inputText id="firstname" value="#{accountView.firstname}" pt:required="" pt:type="text" />
                 <h:outputLabel value="#{messages.lastname}"/>
-                <h:inputText id="lastname" value="#{accountView.lastname}"/>
+                <h:inputText id="lastname" value="#{accountView.lastname}" pt:required="" pt:type="text" />
                 <h:outputLabel value="#{messages.email}"/>
-                <h:inputText id="email" value="#{accountView.email}"/>
-                <h:outputLabel value="#{messages.ssn}"/>
-                <h:inputText id="ssn" value="#{accountView.ssn }"/>
+                <h:inputText id="email" value="#{accountView.email}" pt:required="" pt:type="email" />
+                <h:outputLabel value="#{messages.ssn}"  />
+                <h:inputText id="ssn" value="#{accountView.ssn }" pt:pattern="\d{12}" pt:required="" pt:type="text" pt:placeholder="#{messages.ssnFormat}"/>
                 <h:commandLink action="#{accountView.getCompetences(messages.code)}"> 
                     <input type="submit" value="Test comp" />
                 </h:commandLink>
