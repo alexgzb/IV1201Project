@@ -10,7 +10,7 @@
     <ui:define name="content">
         <div>
             <h:form>
-                <h:commandButton value="Logout" action="#{sessionView.logout()}"/>
+                <h:commandButton value="#{messages.logout}" action="#{sessionView.logout()}"/>
             </h:form>
             <h:outputLabel value="#{messages.welcomeApplicant}" />
         </div>

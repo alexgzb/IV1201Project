@@ -15,6 +15,14 @@
         <pattern value="/login" />
         <view-id value="/faces/loginindex.xhtml" />
     </url-mapping>
+    <url-mapping id="applicantStart">
+        <pattern value="/applicantStart" />
+        <view-id value="/faces/Applicant/applicantstart.xhtml" />
+    </url-mapping>
+        <url-mapping id="recruiterStart">
+        <pattern value="/recruiterStart" />
+        <view-id value="/faces/Recruiter/recruiterstart.xhtml" />
+    </url-mapping>
     
 
 </pretty-config>
