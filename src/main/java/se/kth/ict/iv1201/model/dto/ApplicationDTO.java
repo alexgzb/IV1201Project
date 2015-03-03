@@ -2,10 +2,10 @@ package se.kth.ict.iv1201.model.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import se.kth.ict.iv1201.model.entities.Competence;
 
 /**
- * A dto that contains all information for making an application for a user.   
+ * A dto that contains all information for making an application for a user, is
+ * used to pass that data around the system.
  *
  * @author Wilhelm
  */
@@ -13,11 +13,11 @@ public class ApplicationDTO {
     
     private String username;
     private BigDecimal[] experiance;
-    private Competence[] competence;
+    private int[] competence;
     private Date[] fromDate;
     private Date[] toDate;
 
-    public ApplicationDTO(String username, BigDecimal[] experiance, Competence[] competence, Date[] fromDate, Date[] toDate) {
+    public ApplicationDTO(String username, BigDecimal[] experiance, int[] competence, Date[] fromDate, Date[] toDate) {
         this.username = username;
         this.experiance = experiance;
         this.competence = competence;
@@ -41,11 +41,11 @@ public class ApplicationDTO {
         this.experiance = experiance;
     }
 
-    public Competence[] getCompetence() {
+    public int[] getCompetence() {
         return competence;
     }
 
-    public void setCompetence(Competence[] competence) {
+    public void setCompetence(int[] competence) {
         this.competence = competence;
     }
 
