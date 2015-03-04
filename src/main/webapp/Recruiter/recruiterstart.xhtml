@@ -4,47 +4,55 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
                 template="/templates/commonlayout.xhtml">
 
+    
     <ui:define name="title">Recruiter #{messages.page}</ui:define>
     <ui:define name="content">
-        <div>
-            <h:form>
-                <h:commandButton value="#{messages.logoutText}" action="#{sessionView.logout()}"/>
-            </h:form>
-            <h:outputLabel value="#{messages.welcomeRecruiter}" />
-            
-            <h:form>
-               <h:commandLink action="#{jobView.loadAvailableJobs(messages.code)}"> 
-                    <input type="submit" value="#{messages.getJobsButtonText}" />
-                </h:commandLink> 
-            </h:form>
-            
-            <h:form>
-                <h:dataTable value="#{jobView.availableJobs}" var="availableJobs">
-                    <h:column>    				
-                        <f:facet name="header">Job ID</f:facet>    				
-                        #{availableJobs.jobID}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        #{availableJobs.name}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Description</f:facet>
-                        #{availableJobs.description}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">From</f:facet>
-                        #{availableJobs.fromDate}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">To</f:facet>
-                        #{availableJobs.toDate}
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-            
-        </div>
+    <f:event listener="#{jobView.loadCompetences(messages.code)}" type="preRenderView" />    
+        <h:form>
+            <h:panelGrid columns="9" cellpadding="5">
+                <h:outputLabel for="menu" value="Competences:" />
+                <p:selectCheckboxMenu id="menu" value="#{jobView.selectedCompetences}" label="Competences"
+                                      filter="true" required="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                    <f:selectItems value="#{jobView.competences}" />
+                </p:selectCheckboxMenu>
+                
+                <h:outputLabel for="namesearch" value="Name: " />
+                <p:inputText id="namesearch" value="#{jobView.nameSearch}" required="false" label="Name" />
+                
+                <p:outputLabel for="startdate" value="Start date:" />
+                <p:calendar id="startdate" value="#{jobView.startDate}">
+                    <p:ajax event="dateSelect" listener="#{jobView.onDateSelect}" />
+                </p:calendar>
+                
+                <p:outputLabel for="enddate" value="End date:" />
+                <p:calendar id="enddate" value="#{jobView.endDate}">
+                    <p:ajax event="dateSelect" listener="#{jobView.onDateSelect}" />
+                </p:calendar>
+
+
+                <p:commandButton value="Submit" update=":applicationstable" actionListener="#{jobView.loadQueriedApplications}"/>
+            </h:panelGrid>
+        </h:form>
+    
+        <p:dataTable  id="applicationstable" var="appl" value="#{jobView.queriedApplications}" style="margin-bottom:40px">
+            <f:facet name="header">
+                Applicants
+            </f:facet>
+            <p:column headerText="Firstname" sortBy="#{appl.firstname}">
+                <h:outputText value="#{appl.firstname}" />
+            </p:column>
+
+            <p:column headerText="Lastname" sortBy="#{appl.lastname}">
+                <h:outputText value="#{appl.lastname}" />
+            </p:column>
+
+            <p:column headerText="Registration date" sortBy="#{appl.registrationDate}">
+                <h:outputText value="#{appl.registrationDate}" />
+            </p:column>
+        </p:dataTable>
+        
     </ui:define>
 </ui:composition>
