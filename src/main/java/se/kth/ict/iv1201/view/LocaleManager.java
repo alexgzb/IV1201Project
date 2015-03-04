@@ -13,11 +13,20 @@ import se.kth.ict.iv1201.util.log.Log;
 @Named(value="locale")
 @ApplicationScoped
 public class LocaleManager {
+    
+    private Locale locale;
+    
     public void changeLocale() {
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(getLanguageCode()));
+        locale = new Locale(getLanguageCode());
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
 
     private String getLanguageCode() {
         return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("languageCode");
     }
+    
+    public Locale getLocale(){
+        return locale;
+    }
+    
 }
