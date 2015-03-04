@@ -6,7 +6,6 @@
 package se.kth.ict.iv1201.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,13 +17,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -69,8 +66,6 @@ public class Person implements Serializable {
     @Size(min = 1, max = 254)
     @Column(name = "Email")
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "personID")
-    private Collection<Employment> employmentCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
     private Application application;
     @JoinColumn(name = "Username", referencedColumnName = "Username")
@@ -127,15 +122,6 @@ public class Person implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @XmlTransient
-    public Collection<Employment> getEmploymentCollection() {
-        return employmentCollection;
-    }
-
-    public void setEmploymentCollection(Collection<Employment> employmentCollection) {
-        this.employmentCollection = employmentCollection;
     }
 
     public Application getApplication() {

@@ -26,9 +26,9 @@
     <!-- Set index to HTTPS -->
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Index</web-resource-name>
+            <web-resource-name>Login index</web-resource-name>
             <description/>
-            <url-pattern>/faces/loginindex.xhtml</url-pattern>
+            <url-pattern>/login</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
@@ -43,7 +43,7 @@
         <web-resource-collection>
             <web-resource-name>Applicant Pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/Applicant/*</url-pattern>
+            <url-pattern>/applicantStart</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
@@ -60,7 +60,7 @@
         <web-resource-collection>
             <web-resource-name>Recruiter Pages</web-resource-name>
             <description/>
-            <url-pattern>/faces/Recruiter/*</url-pattern>
+            <url-pattern>/recruiterStart</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>
@@ -71,6 +71,24 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+    
+    <security-constraint> 
+        <web-resource-collection> 
+            <web-resource-name>Recruiter Pages 2</web-resource-name> 
+            <description/> 
+            <url-pattern>/faces/Recruiter/*</url-pattern> 
+            <http-method>GET</http-method> 
+            <http-method>POST</http-method> 
+        </web-resource-collection> 
+        <auth-constraint> 
+            <role-name>roleRecruiter</role-name> 
+        </auth-constraint> 
+        <user-data-constraint> 
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+        </user-data-constraint> 
+    </security-constraint> 
+
+    
     <!-- Authorization End -->
     
     <login-config>

@@ -1,7 +1,8 @@
 package se.kth.ict.iv1201.view;
 
+import java.io.Serializable;
 import java.util.Locale;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import se.kth.ict.iv1201.util.log.Log;
@@ -11,13 +12,22 @@ import se.kth.ict.iv1201.util.log.Log;
  */
 @Log
 @Named(value="locale")
-@ApplicationScoped
-public class LocaleManager {
+@SessionScoped
+public class LocaleManager implements Serializable {
+    
+    private Locale locale;
+    
     public void changeLocale() {
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(getLanguageCode()));
+        locale = new Locale(getLanguageCode());
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
 
     private String getLanguageCode() {
         return FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("languageCode");
     }
+    
+    public Locale getLocale(){
+        return locale;
+    }
+    
 }

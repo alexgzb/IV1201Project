@@ -48,8 +48,6 @@ public class Language implements Serializable {
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageCode")
     private Collection<CompetenceTranslation> competenceTranslationCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "languageCode")
-    private Collection<JobTranslation> jobTranslationCollection;
 
     public Language() {
     }
@@ -86,15 +84,6 @@ public class Language implements Serializable {
 
     public void setCompetenceTranslationCollection(Collection<CompetenceTranslation> competenceTranslationCollection) {
         this.competenceTranslationCollection = competenceTranslationCollection;
-    }
-
-    @XmlTransient
-    public Collection<JobTranslation> getJobTranslationCollection() {
-        return jobTranslationCollection;
-    }
-
-    public void setJobTranslationCollection(Collection<JobTranslation> jobTranslationCollection) {
-        this.jobTranslationCollection = jobTranslationCollection;
     }
 
     @Override
