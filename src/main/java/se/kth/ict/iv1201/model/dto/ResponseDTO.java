@@ -2,7 +2,7 @@ package se.kth.ict.iv1201.model.dto;
 
 /**
  * ResponseDTO is a data transport object designed to hold data
- concerning of how a calls within the system has gone. If contains a boolean
+ * concerning of how a calls within the system has gone. If contains a boolean
  * regarding if the call was successful and two strings with information 
  * about the calla.
  * 

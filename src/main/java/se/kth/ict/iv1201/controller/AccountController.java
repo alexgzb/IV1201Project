@@ -1,5 +1,6 @@
 package se.kth.ict.iv1201.controller;
 
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -11,7 +12,7 @@ import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
-import se.kth.ict.iv1201.model.dto.CompetencesDTO;
+import se.kth.ict.iv1201.model.dto.CompetenceDTO;
 import se.kth.ict.iv1201.model.dto.ResponseDTO;
 import se.kth.ict.iv1201.util.log.Log;
 
@@ -62,31 +63,33 @@ public class AccountController {
     /**
      * Sends a request to the accontDAO to get all the competences for the
      * selected language, and returns the answer.
-     * 
+     *
      * @param langCode The selected language for the view.
-     * @return 
+     * @return
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public CompetencesDTO getCompetences(String langCode) {
+    public ArrayList<CompetenceDTO> getCompetences(String langCode) {
         return accountDAO.getCompetences(langCode);
     }
-    
+
     /**
-     * Makes all required calls to the model for verifying and saving
-     * the the data entered by the user for their new application.
-     * 
+     * Makes all required calls to the model for verifying and saving the the
+     * data entered by the user for their new application.
+     *
      * @param data Application data to be handled
      * @return ResponseDTO Containing a string with information about the
      * request that has been done and a boolean that is true if the request went
-     * well. 
+     * well.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public ResponseDTO addApplication(ApplicationDTO data){
+    public ResponseDTO addApplication(ApplicationDTO data) {
         ResponseDTO response = verification.verifyApplication(data);
-        if (!response.isSuccess()){
+        if (!response.isSuccess()) {
             return response;
         }
-        accountDAO.addApplication(data);
-        return new ResponseDTO(true, "applicationCreated");
+        if(accountDAO.addApplication(data)){
+            return new ResponseDTO(true, "applicationCreated");
+        }
+        return new ResponseDTO(false, "applicationFailed", "applicationExists");
     }
 }
