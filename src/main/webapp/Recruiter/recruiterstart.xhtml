@@ -4,46 +4,13 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
                 template="/templates/commonlayout.xhtml">
 
     <ui:define name="title">Recruiter #{messages.page}</ui:define>
     <ui:define name="content">
         <div>
-            <h:form>
-                <h:commandButton value="#{messages.logoutText}" action="#{sessionView.logout()}"/>
-            </h:form>
-            <h:outputLabel value="#{messages.welcomeRecruiter}" />
-            
-            <h:form>
-               <h:commandLink action="#{jobView.loadAvailableJobs(messages.code)}"> 
-                    <input type="submit" value="#{messages.getJobsButtonText}" />
-                </h:commandLink> 
-            </h:form>
-            
-            <h:form>
-                <h:dataTable value="#{jobView.availableJobs}" var="availableJobs">
-                    <h:column>    				
-                        <f:facet name="header">Job ID</f:facet>    				
-                        #{availableJobs.jobID}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                        #{availableJobs.name}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Description</f:facet>
-                        #{availableJobs.description}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">From</f:facet>
-                        #{availableJobs.fromDate}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">To</f:facet>
-                        #{availableJobs.toDate}
-                    </h:column>
-                </h:dataTable>
-            </h:form>
             
         </div>
     </ui:define>

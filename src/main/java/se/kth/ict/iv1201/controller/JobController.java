@@ -1,15 +1,13 @@
 
 package se.kth.ict.iv1201.controller;
 
-import java.util.ArrayList;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.JobDAO;
-import se.kth.ict.iv1201.model.dto.JobDTO;
 
 /**
  * An enterprise bean with the purpose of providing transaction logic between the presentation layer
@@ -21,17 +19,13 @@ import se.kth.ict.iv1201.model.dto.JobDTO;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class JobController {
     
+    private Verification verification;
     @EJB
     private JobDAO jobDAO;
 
-    /**
-     * Retrieves all available jobs in the database, by joining key values with translations in two different tables.
-     * @param langaugeCode Specifies what language the jobs should be retrieved in
-     * @return An <code>ArrayList</code> of <code>JobDTO</code> objects, where each instance of the DTO represents a job
-     */
-    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public ArrayList<JobDTO> getAvailableJobs(String langaugeCode) {
-        return jobDAO.getAvailableJobs(langaugeCode);
+    @PostConstruct
+    public void startUp() {
+        verification = new Verification();
     }
     
     

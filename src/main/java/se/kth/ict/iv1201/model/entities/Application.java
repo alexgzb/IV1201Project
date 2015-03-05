@@ -7,6 +7,7 @@ package se.kth.ict.iv1201.model.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -46,6 +49,13 @@ public class Application implements Serializable {
     @JoinColumn(name = "PersonID", referencedColumnName = "PersonID", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Person person;
+    @Column(name = "RegistrationDate")
+    @Temporal(TemporalType.DATE)
+    private Date registrationDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Hired")
+    private boolean hired;
 
     public Application() {
     }
@@ -88,6 +98,24 @@ public class Application implements Serializable {
         this.person = person;
     }
 
+    public boolean isHired() {
+        return hired;
+    }
+
+    public void setHired(boolean hired) {
+        this.hired = hired;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -112,5 +140,7 @@ public class Application implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.Application[ personID=" + personID + " ]";
     }
+    
+    
     
 }
