@@ -3,7 +3,6 @@ package se.kth.ict.iv1201.model.dao;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -15,12 +14,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
-import se.kth.ict.iv1201.model.dto.CompetencesDTO;
+import se.kth.ict.iv1201.model.dto.CompetenceDTO;
 import se.kth.ict.iv1201.model.entities.Application;
 import se.kth.ict.iv1201.model.entities.ApplicationAvailability;
 import se.kth.ict.iv1201.model.entities.ApplicationCompetence;
 import se.kth.ict.iv1201.model.entities.Competence;
-import se.kth.ict.iv1201.model.entities.CompetenceTranslation;
 import se.kth.ict.iv1201.model.entities.Language;
 import se.kth.ict.iv1201.model.entities.Person;
 import se.kth.ict.iv1201.model.entities.User;
@@ -45,11 +43,19 @@ public class AccountDAO {
      * The entity is then saved to the database, and the dependencies are made.
      *
      * @param data User entered data for the application.
+     * @return True if the application was added, false otherwise. 
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void addApplication(ApplicationDTO data) {
+    public boolean addApplication(ApplicationDTO data) {
         User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", data.getUsername()).getSingleResult();
         Person person = em.createNamedQuery("Person.findByUsername", Person.class).setParameter("username", user).getSingleResult();
+        try {
+            Application application = em.createNamedQuery("Application.findByPersonID", Application.class
+            ).setParameter("personID", person.getPersonID()).getSingleResult();
+            return false;
+        } catch (javax.persistence.PersistenceException e) {
+            // Fall through.
+        }
         Application application = new Application(person.getPersonID());
         ArrayList<ApplicationAvailability> availability = new ArrayList<ApplicationAvailability>();
         for (int i = 0; i < data.getFromDate().length; i++) {
@@ -62,14 +68,16 @@ public class AccountDAO {
         application.setApplicationAvailabilityCollection(availability);
         ArrayList<ApplicationCompetence> competence = new ArrayList<ApplicationCompetence>();
         for (int i = 0; i < data.getCompetence().length; i++) {
+            Competence competenceID = em.createNamedQuery("Competence.findByCompetenceID", Competence.class).setParameter("competenceID", data.getCompetence()[i]).getSingleResult();
             ApplicationCompetence c = new ApplicationCompetence(data.getExperiance()[i]);
-            c.setCompetenceID(data.getCompetence()[i]);
+            c.setCompetenceID(competenceID);
             c.setPersonID(application);
             competence.add(c);
         }
         application.setApplicationCompetenceCollection(competence);
         person.setApplication(application);
         em.persist(application);
+        return true;
     }
 
     /**
@@ -81,29 +89,12 @@ public class AccountDAO {
      * @return
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public CompetencesDTO getCompetences(String langCode) {
+    public ArrayList<CompetenceDTO> getCompetences(String langCode) {
         Language lang = em.createNamedQuery("Language.findByLanguageCode", Language.class
         ).setParameter("languageCode", langCode).getSingleResult();
-        Query query = em.createQuery("select c from CompetenceTranslation c where c.languageCode = :code");
-
-        query.setParameter(
-                "code", lang);
-        List<CompetenceTranslation> result = query.getResultList();
-
-        if (result.size()
-                < 1) {
-            return null;
-        }
-        String[] des = new String[result.size()];
-        Competence[] CID = new Competence[result.size()];
-        int i = 0;
-        for (CompetenceTranslation c : result) {
-            des[i] = c.getDescription();
-            CID[i] = c.getCompetenceID();
-            i++;
-        }
-
-        return new CompetencesDTO(des, CID);
+        Query query = em.createQuery("SELECT NEW se.kth.ict.iv1201.model.dto.CompetenceDTO(t.description,c.competenceID) FROM CompetenceTranslation t JOIN t.competenceID c WHERE t.languageCode = :lang", CompetenceDTO.class);
+        query.setParameter("lang", lang);
+        return new ArrayList<CompetenceDTO>(query.getResultList());
     }
 
     /**

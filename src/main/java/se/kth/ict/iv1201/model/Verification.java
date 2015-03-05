@@ -40,6 +40,9 @@ public class Verification {
         if (data.getFromDate().length != data.getToDate().length || data.getFromDate().length < 1) {
             return new ResponseDTO(false, "applicationDateFail", "missingDate");
         }
+        if(data.getCompetence().length != data.getExperiance().length){
+            return new ResponseDTO(false, "applicationDateFail", "missingExperiance");
+        }
         for (int i = 0; i < data.getFromDate().length; i++) {
             if (data.getFromDate()[i].compareTo(data.getToDate()[i]) > 0) {
                 return new ResponseDTO(false, "applicationDateFail", "dateFromToMiss");
