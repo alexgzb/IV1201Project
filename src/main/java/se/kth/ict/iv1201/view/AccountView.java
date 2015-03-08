@@ -3,11 +3,9 @@ package se.kth.ict.iv1201.view;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.ejb.EJBException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.transaction.TransactionRolledbackException;
 import se.kth.ict.iv1201.controller.AccountController;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
@@ -58,7 +56,7 @@ public class AccountView {
             if (!newAccount.isSuccess()) {
                 errorMessage = newAccount.getErrorMessage();
             }
-        } catch (javax.ejb.EJBException e) {
+        } catch (Exception e) {
             requestResponse = "unknownEror";
             errorMessage = "unknownEror";
         }
@@ -82,7 +80,7 @@ public class AccountView {
             } else {
                 competences = data;
             }
-        } catch (javax.ejb.EJBException e) {
+        } catch (Exception e) {
             requestResponse = "unknownEror";
             errorMessage = "unknownEror";
         }
@@ -104,7 +102,7 @@ public class AccountView {
             if (!application.isSuccess()) {
                 errorMessage = application.getErrorMessage();
             }
-        } catch (javax.ejb.EJBException e) {
+        } catch (Exception e) {
             requestResponse = "unknownEror";
             errorMessage = "unknownEror";
         }

@@ -56,7 +56,7 @@ public class AccountController {
         if (exists != null) {
             return new ResponseDTO(false, "newAccountFailed", exists + "Used");
         }
-        accountDAO.NewAccount(data);
+        accountDAO.newAccount(data);
         return new ResponseDTO(true, "accountCreated");
     }
 
@@ -87,9 +87,6 @@ public class AccountController {
         if (!response.isSuccess()) {
             return response;
         }
-        if(accountDAO.addApplication(data)){
-            return new ResponseDTO(true, "applicationCreated");
-        }
-        return new ResponseDTO(false, "applicationFailed", "applicationExists");
+        return accountDAO.addApplication(data);
     }
 }
