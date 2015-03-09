@@ -46,7 +46,7 @@ public class Verification {
             return new ResponseDTO(false, "fieldVerFaild", "missingUsername");
         }
         
-        return new ResponseDTO(true, "accountDataValid.");
+        return new ResponseDTO(true, "accountDataValid");
     }
 
     /**
