@@ -193,27 +193,27 @@ public class AccountViewTest {
         accountView.setEmail("will@a.se");
         accountView.setSsn("9309113948");
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
         accountView.setUsername("notTaken");
         accountView.setPassword(null);
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "passwordVerFaild");
         accountView.setFirstname(null);
         accountView.setPassword("0123456789");
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
         accountView.setFirstname("Wille");
         accountView.setLastname(null);
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
         accountView.setEmail(null);
         accountView.setLastname("Magnusson");
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
         accountView.setEmail("will@a.se");
         accountView.setSsn(null);
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
     }
 
     /**
@@ -239,7 +239,7 @@ public class AccountViewTest {
         accountView.setEmail("will@a.se");
         accountView.setSsn("9309113948");
         accountView.newAccount();
-        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        assertEquals(accountView.getRequestResponse(), "passwordVerFaild");
         accountView.setUsername("notTaken");
         accountView.setPassword("0123456789");
         accountView.setFirstname("Wille");
