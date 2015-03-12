@@ -10,4 +10,17 @@
             <var>messages</var>
         </resource-bundle>
     </application>
+    
+    <navigation-rule>
+        <from-view-id>/loginindex.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>Applicant</from-outcome>
+            <to-view-id>Applicant/applicantstart.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Recruiter</from-outcome>
+            <to-view-id>Recruiter/recruiterstart.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
 </faces-config>

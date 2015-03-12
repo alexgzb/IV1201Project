@@ -56,7 +56,10 @@ public class Application implements Serializable {
     @NotNull
     @Column(name = "Hired")
     private boolean hired;
-
+    @Column(name = "LastModified")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModified;
+    
     public Application() {
     }
 
@@ -113,6 +116,16 @@ public class Application implements Serializable {
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+    
+    
     
     
 

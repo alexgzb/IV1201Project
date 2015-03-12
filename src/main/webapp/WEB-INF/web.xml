@@ -71,6 +71,7 @@
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
+
     
     <security-constraint> 
         <web-resource-collection> 
@@ -90,7 +91,8 @@
 
     
     <!-- Authorization End -->
-    
+
+      
     <login-config>
         <auth-method>FORM</auth-method>
         <realm-name>JDBCRealm</realm-name>

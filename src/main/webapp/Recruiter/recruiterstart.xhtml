@@ -4,14 +4,111 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:p="http://primefaces.org/ui"
                 template="/templates/commonlayout.xhtml">
 
+    
     <ui:define name="title">Recruiter #{messages.page}</ui:define>
     <ui:define name="content">
-        <div>
+    <f:event listener="#{jobView.loadCompetences(messages.code)}" type="preRenderView" />    
+    <h:form>
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        <h:panelGrid columns="9" cellpadding="5">
+            <h:outputLabel for="menu" value="#{messages.competencies}" />
+            <p:selectCheckboxMenu id="menu" value="#{jobView.selectedCompetences}" label="#{messages.competencies}" requiredMessage="#{messages.noCompetenciesSelected}"
+                                  filter="true" required="true" filterMatchMode="startsWith" panelStyle="width:250px">
+                <f:selectItems value="#{jobView.competences}" />
+            </p:selectCheckboxMenu>
+
+            <h:outputLabel for="namesearch" value="#{messages.name}"  />
+            <p:inputText id="namesearch" value="#{jobView.nameSearch}" required="false" label="Name" validatorMessage="#{messages.illegalCharacters}">
+                <f:validateRegex pattern="[a-zA-Z ]*" />
+            </p:inputText>
+
+            <p:outputLabel for="startdate" value="#{messages.startDate}" />
+            <p:calendar id="startdate" value="#{jobView.startDate}"/>
+
+            <p:outputLabel for="enddate" value="#{messages.endDate}" />
+            <p:calendar id="enddate" value="#{jobView.endDate}"/>
+
+
+            <p:commandButton value="#{messages.submit}" update=":applicationform:applicationstable" actionListener="#{jobView.loadQueriedApplications(messages.dateIntervalErrorHeader, messages.dateIntervalErrorStartPrecedesEnd, messages.dateIntervalErrorNotComplete)}"/>
+        </h:panelGrid>
+    </h:form>
+    
+    <h:form id="applicationform">
+        
+        <p:contextMenu for="applicationstable">
+            <p:menuitem id="menuitemviewapplication" value="#{messages.viewApplication}" update="applicationDetail" icon="ui-icon-search" oncomplete="PF('applicationDialog').show()"/>
+            <p:menuitem id="menuitemgeneratepdf" value="#{messages.generatePDF}" icon="ui-icon-document" ajax="false">
+                <p:dataExporter type="pdf" target="applicationstable" fileName="application" selectionOnly="true" />
+            </p:menuitem>
+        </p:contextMenu>
+
+        
+        <p:dataTable  id="applicationstable" var="appl" value="#{jobView.queriedApplications}" rowKey="#{appl.personID}" style="margin-bottom:40px"
+                      selection="#{jobView.selectedApplication}" selectionMode="single"
+                      rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="1,10,100,1000">>
+
+            <p:column headerText="#{messages.firstname}" sortBy="#{appl.firstname}">
+                <h:outputText value="#{appl.firstname}" />
+            </p:column>
+
+            <p:column headerText="#{messages.lastname}" sortBy="#{appl.lastname}">
+                <h:outputText value="#{appl.lastname}" />
+            </p:column>
+
+            <p:column headerText="#{messages.dateOfRegistration}" sortBy="#{appl.registrationDate}">
+                <h:outputText value="#{appl.registrationDate}" />
+            </p:column>
+        </p:dataTable>
+        
+        <p:dialog header="#{messages.applicationInformation}" widgetVar="applicationDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <p:outputPanel id="applicationDetail" style="text-align:center;">
+            <p:panelGrid  columns="2" rendered="#{not empty jobView.selectedApplication}">
+                
+                <h:outputText value="#{messages.firstname}" />
+                <h:outputText value="#{jobView.selectedApplication.firstname}" />
+                
+                <h:outputText value="#{messages.lastname}" />
+                <h:outputText value="#{jobView.selectedApplication.lastname}" />
+                
+                <h:outputText value="#{messages.dateOfRegistration}" />
+                <h:outputText value="#{jobView.selectedApplication.registrationDate}" />
+                
+                <h:outputText value="#{messages.hired}" />
+                <h:outputText value="#{jobView.selectedApplication.hired}" />
+
+            </p:panelGrid>
             
-        </div>
+            <p:commandButton id="firebutton" value="#{messages.fire}" icon="ui-icon-close"
+                             actionListener="#{jobView.fireApplicant(messages.unableToPerformAction,
+                                               messages.hireSomeoneWhoIsHired,
+                                               messages.unknownErrorHeader,
+                                               messages.unkownHeaderBody,
+                                               messages.applicantStatusChangeOK,
+                                               messages.applicantStatusChangeMessage)}"/>
+            <p:commandButton id="hirebutton" value="#{messages.hire}" icon="ui-icon-check" 
+                             actionListener="#{jobView.hireApplicant(messages.unableToPerformAction,
+                                               messages.hireSomeoneWhoIsHired,
+                                               messages.unknownErrorHeader,
+                                               messages.unkownHeaderBody,
+                                               messages.applicantStatusChangeOK,
+                                               messages.applicantStatusChangeMessage)}"/>
+            
+        </p:outputPanel>
+    </p:dialog>
+
+        <p:confirmDialog message="#{messages.applicationModified}" header="#{messages.applicationModifiedHeader}" severity="alert" widgetVar="confirmation">
+            <p:commandButton value="#{messages.yes}" onclick="confirmation.hide()"
+                             actionListener="#{jobView.updateApplication()}" />
+        </p:confirmDialog>
+
+        
+    </h:form>
+        
     </ui:define>
 </ui:composition>
