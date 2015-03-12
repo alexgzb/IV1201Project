@@ -57,7 +57,7 @@ public class Application implements Serializable {
     @Column(name = "Hired")
     private boolean hired;
     @Column(name = "LastModified")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
     
     public Application() {

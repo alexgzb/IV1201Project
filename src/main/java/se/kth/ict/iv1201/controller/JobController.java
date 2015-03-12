@@ -2,6 +2,7 @@
 package se.kth.ict.iv1201.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -39,16 +40,42 @@ public class JobController {
     }
 
     /**
-     * 
-     * @param competences
-     * @param nameSearch
-     * @return 
+     * Retrieves available applications from the database
+     * @param competences What competencies should be queried
+     * @param nameSearch Explicit name to be queried
+     * @param startDate Start date of the interval, if any
+     * @param endDate End date of the interval, if any
+     * @return An <code>ArrayList</code> of <code>QueriedApplicationDTO</code> objects
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public ArrayList<QueriedApplicationDTO> getQueriedApplications(String[] competences, String nameSearch) {
-        return jobDAO.getQueriedApplications(competences, nameSearch);
+    public ArrayList<QueriedApplicationDTO> getQueriedApplications(
+            String[] competences,
+            String nameSearch,
+            Date startDate,
+            Date endDate) {
+        return jobDAO.getQueriedApplications(competences, nameSearch, startDate, endDate);
+    }
+
+    /**
+     * Updates an applicants status to whatever data given by the parameter <code>value</code>.
+     * @param personID ID of the applicant to be updated
+     * @param value True of false, depending on whether the applicant is employed or fired
+     * @return True if the transactions succeeds, false if the transaction fails
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public boolean updateApplication(int personID, boolean value) {
+        return jobDAO.updateApplication(personID, value);
     }
     
+    /**
+     * Checks if applicant has been modified since last fetch
+     * @param personID ID of the applicant to be checked
+     * @param dateTimeModified Date/time of when the applicant last was modified
+     * @return True if the applicant has been modified, false if not
+     */
+    public boolean isModified(int personID, Date dateTimeModified){
+        return jobDAO.isModified(personID, dateTimeModified);
+    }
     
     
 }
