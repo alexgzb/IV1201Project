@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
+import se.kth.ict.iv1201.model.dto.ResponseDTO;
 import se.kth.ict.iv1201.model.entities.Application;
 import se.kth.ict.iv1201.model.entities.ApplicationAvailability;
 import se.kth.ict.iv1201.model.entities.ApplicationCompetence;
@@ -43,16 +44,22 @@ public class AccountDAO {
      * The entity is then saved to the database, and the dependencies are made.
      *
      * @param data User entered data for the application.
-     * @return True if the application was added, false otherwise. 
+     * @return True if the application was added, false otherwise.
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public boolean addApplication(ApplicationDTO data) {
-        User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", data.getUsername()).getSingleResult();
-        Person person = em.createNamedQuery("Person.findByUsername", Person.class).setParameter("username", user).getSingleResult();
+    public ResponseDTO addApplication(ApplicationDTO data) {
+        User user = null;
+        Person person = null;
         try {
-            Application application = em.createNamedQuery("Application.findByPersonID", Application.class
+            user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", data.getUsername()).getSingleResult();
+            person = em.createNamedQuery("Person.findByUsername", Person.class).setParameter("username", user).getSingleResult();
+        } catch (NoResultException e) {
+            return new ResponseDTO(false, "applicationFailed", "userNotFound");
+        }
+        try {
+            em.createNamedQuery("Application.findByPersonID", Application.class
             ).setParameter("personID", person.getPersonID()).getSingleResult();
-            return false;
+            return new ResponseDTO(false, "applicationFailed", "applicationExists");
         } catch (javax.persistence.PersistenceException e) {
             // Fall through.
         }
@@ -77,7 +84,7 @@ public class AccountDAO {
         application.setApplicationCompetenceCollection(competence);
         person.setApplication(application);
         em.persist(application);
-        return true;
+        return new ResponseDTO(true, "applicationCreated");
     }
 
     /**
@@ -105,7 +112,7 @@ public class AccountDAO {
      * @param accountDTO the data to insert to the tables
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void NewAccount(AccountDTO accountDTO) {
+    public void newAccount(AccountDTO accountDTO) {
         User newUser;
         Person newPerson;
         // Map each user to the Applicant role - CS 20150219
@@ -189,7 +196,7 @@ public class AccountDAO {
      * @param password Password without encryption.
      * @return Encrypted password string.
      */
-    private String encryptPassword(String password) {
+    public String encryptPassword(String password) {
 
         MessageDigest messageDigest;
         byte[] hash = null;

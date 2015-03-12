@@ -154,4 +154,6 @@ public class Application implements Serializable {
         return "se.kth.ict.iv1201.temp.Application[ personID=" + personID + " ]";
     }
     
+    
+    
 }

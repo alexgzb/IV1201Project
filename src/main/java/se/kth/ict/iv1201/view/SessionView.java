@@ -69,7 +69,7 @@ public class SessionView implements Serializable {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
             request.login(this.username, this.password);
-            resourceURL = getUserResourceURL(controller.getUserRole(this.username));
+            resourceURL = controller.getUserRole(this.username);
         } catch (ServletException ex) {
             //Fall through
         }
@@ -92,6 +92,12 @@ public class SessionView implements Serializable {
         return "/index.xhtml";
     }
     
+    /**
+     * Not Needed with Dynamic Navigation
+     * 
+     * @param pointer
+     * @return 
+     */
     private String getUserResourceURL(String pointer){
         
         String location;

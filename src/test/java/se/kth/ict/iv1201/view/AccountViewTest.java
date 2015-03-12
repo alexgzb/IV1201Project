@@ -1,4 +1,4 @@
-package se.kth.ict.iv1201.model.dao;
+package se.kth.ict.iv1201.view;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,10 +14,15 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import se.kth.ict.iv1201.controller.AccountController;
+import se.kth.ict.iv1201.controller.JobController;
+import se.kth.ict.iv1201.controller.SessionController;
+import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
@@ -29,21 +34,19 @@ import se.kth.ict.iv1201.model.entities.Competence;
 import se.kth.ict.iv1201.model.entities.Person;
 import se.kth.ict.iv1201.model.entities.User;
 
-/**
- * Test class for the AccountDAO
- *
- */
 @RunWith(Arquillian.class)
-public class AccountDAOTest {
+public class AccountViewTest {
 
     @Deployment
     public static JavaArchive createDeployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-                .addPackage(AccountDAO.class.getPackage())
-                .addClasses(AccountDAO.class, Person.class, User.class,
+                .addPackage(AccountView.class.getPackage())
+                .addClasses(AccountView.class, Person.class, User.class,
                         Application.class, ApplicationAvailability.class,
                         ApplicationCompetence.class, ApplicationDTO.class,
-                        AccountDTO.class, ResponseDTO.class, CompetenceDTO.class)
+                        AccountDTO.class, ResponseDTO.class, CompetenceDTO.class,
+                        AccountDAO.class, JobController.class,
+                        AccountController.class, SessionController.class)
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
         System.out.println(jar.toString(true));
@@ -51,13 +54,16 @@ public class AccountDAOTest {
     }
 
     @Inject
-    AccountDAO accountDao;
+    AccountView accountView;
 
     @PersistenceContext(unitName = "rsPU")
     EntityManager em;
 
     @Inject
     UserTransaction utx;
+
+    @Inject
+    AccountDAO accountDao;
 
     @Before
     public void preparePersistenceTest() throws Exception {
@@ -122,88 +128,19 @@ public class AccountDAOTest {
     }
 
     /**
-     * Test of NewAccount method, of class AccountDAO.
-     */
-    @Test
-    public void testVerifyUniqueAccount_allOK_returnNull() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        AccountDTO acccount = new AccountDTO("nottaken", "123456789", "Anders", "Borg", "a@b.cd", "1111111111");
-        String result = accountDao.VerifyUniqueAccount(acccount);
-        String expected = null;
-        assertEquals(expected, result);
-        utx.commit();
-    }
-
-    /**
-     * Test of NewAccount method, of class AccountDAO.
-     */
-    @Test
-    public void testVerifyUniqueAccount_illegalCharactersUsername_returnNull() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        AccountDTO acccount = new AccountDTO("http://google.se", "123456789", "Anders", "Borg", "a@b.cd", "1111111111");
-        String result = accountDao.VerifyUniqueAccount(acccount);
-        String expected = null;
-        assertEquals(expected, result);
-        utx.commit();
-    }
-
-    /**
-     * Test of NewAccount method, of class AccountDAO. Test of the username
-     * already taken scenario.
-     */
-    @Test
-    public void testVerifyUniqueAccount_usernameAlreadyTaken_returnStringUsername() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        AccountDTO acccount = new AccountDTO("borg", "123456789", "Anders", "Borg", "anders@borg.se", "4709202362");
-        String result = accountDao.VerifyUniqueAccount(acccount);
-        String expected = "username";
-        assertEquals(expected, result);
-        utx.commit();
-    }
-
-    /**
-     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
-     * email already taken scenario
-     */
-    @Test
-    public void testVerifyUniqueAccount_emailAlreadyTaken_returnStringEmail() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@strand.kth.se", "4709202362");
-        String result = accountDao.VerifyUniqueAccount(acccount);
-        String expected = "email";
-        assertEquals(expected, result);
-        utx.commit();
-    }
-
-    /**
-     * Test of VerifyUniqueAccount method, of class AccountDAO. Test of the
-     * email already taken scenario
-     */
-    @Test
-    public void testVerifyUniqueAccount_ssnAlreadyTaken_returnStringSsn() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        AccountDTO acccount = new AccountDTO("notTaken", "123456789", "Anders", "Borg", "per@a.se", "196712121211");
-        String result = accountDao.VerifyUniqueAccount(acccount);
-        String expected = "ssn";
-        assertEquals(expected, result);
-        utx.commit();
-    }
-
-    /**
      * Tests to make a new account and makes sure all the saved data is
      * accurate.
      */
     @Test
     public void testNewAccount_allOk() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        accountDao.newAccount(new AccountDTO("notTaken", "0123456789", "Wille", "Magnusson", "will@a.se", "9309113948"));
-        utx.commit();
+        accountView.setUsername("notTaken");
+        accountView.setPassword("0123456789");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn("9309113948");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "accountCreated");
         User user = null;
         Person person = null;
         try {
@@ -230,7 +167,6 @@ public class AccountDAOTest {
         em.createNativeQuery("DELETE FROM UserRole").executeUpdate();
         em.remove(user);
         utx.commit();
-
         try {
             user = em.createNamedQuery("User.findByUsername", User.class
             ).setParameter("username", "notTaken").getSingleResult();
@@ -250,36 +186,76 @@ public class AccountDAOTest {
      */
     @Test
     public void testNewAccount_missingFields() throws Exception {
-        try {
-            accountDao.newAccount(new AccountDTO(null, "0123456789", "Wille", "Manusson", "will@a.se", "9309113948"));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
-        try {
-            accountDao.newAccount(new AccountDTO("notTaken", null, "Wille", "Manusson", "will@a.se", "9309113948"));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
-        try {
-            accountDao.newAccount(new AccountDTO("notTaken", "0123456789", null, "Manusson", "will@a.se", "9309113948"));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
-        try {
-            accountDao.newAccount(new AccountDTO("notTaken", "0123456789", "Wille", null, "will@a.se", "9309113948"));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
-        try {
-            accountDao.newAccount(new AccountDTO("notTaken", "0123456789", "Wille", "Manusson", null, "9309113948"));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
-        try {
-            accountDao.newAccount(new AccountDTO("notTaken", "0123456789", "Wille", "Manusson", "will@a.se", null));
-            assertFalse(true);
-        } catch (Exception e) {
-        }
+        accountView.setUsername(null);
+        accountView.setPassword("0123456789");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn("9309113948");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
+        accountView.setUsername("notTaken");
+        accountView.setPassword(null);
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "passwordVerFaild");
+        accountView.setFirstname(null);
+        accountView.setPassword("0123456789");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
+        accountView.setFirstname("Wille");
+        accountView.setLastname(null);
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
+        accountView.setEmail(null);
+        accountView.setLastname("Magnusson");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn(null);
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "fieldVerFaild");
+    }
+
+    /**
+     * Tests to make an account with already used data and data that is not
+     * allowed, should be stopped from doing this.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testNewAccount_faultyData_usedData() throws Exception {
+        accountView.setUsername("borg");
+        accountView.setPassword("0123456789");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn("9309113948");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        accountView.setUsername("notTaken");
+        accountView.setPassword("0123456");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn("9309113948");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "passwordVerFaild");
+        accountView.setUsername("notTaken");
+        accountView.setPassword("0123456789");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("per@strand.kth.se");
+        accountView.setSsn("9309113948");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
+        accountView.setUsername("borg");
+        accountView.setPassword("0123456789");
+        accountView.setFirstname("Wille");
+        accountView.setLastname("Magnusson");
+        accountView.setEmail("will@a.se");
+        accountView.setSsn("196712121211");
+        accountView.newAccount();
+        assertEquals(accountView.getRequestResponse(), "newAccountFailed");
     }
 
     /**
@@ -303,18 +279,17 @@ public class AccountDAOTest {
         em.persist(newUser);
         newPerson = new Person(firstName, lastName, ssn, email, newUser);
         em.persist(newPerson);
-        ApplicationDTO data = new ApplicationDTO(userName, new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)}, new int[]{1, 2}, new Date[]{new Date(1), new Date(10)}, new Date[]{new Date(5), new Date(15)});
+        accountView.setApplicationCompetences(new int[]{1, 2});
+        accountView.setExperiance(new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)});
+        accountView.setFromDate(new Date[]{new Date(1), new Date(10)});
+        accountView.setToDate(new Date[]{new Date(5), new Date(15)});
         utx.commit();
-        utx.begin();
-        em.joinTransaction();
-        ResponseDTO response = accountDao.addApplication(data);
-        assertTrue(response.isSuccess());
-        User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", data.getUsername()).getSingleResult();
+        accountView.addApplication("abc");
+        assertEquals(accountView.getRequestResponse(), "applicationCreated");
+        User user = em.createNamedQuery("User.findByUsername", User.class).setParameter("username", "abc").getSingleResult();
         Person person = em.createNamedQuery("Person.findByUsername", Person.class).setParameter("username", user).getSingleResult();
         Application application = em.createNamedQuery("Application.findByPersonID", Application.class
         ).setParameter("personID", person.getPersonID()).getSingleResult();
-        assertTrue(application.getPersonID().equals(person.getPersonID()));
-        utx.commit();
         clearData();
         insertData();
     }
@@ -327,12 +302,12 @@ public class AccountDAOTest {
      */
     @Test
     public void testAddApplication_missingUser() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        ApplicationDTO data = new ApplicationDTO("notTaken", new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)}, new int[]{1, 2}, new Date[]{new Date(1), new Date(10)}, new Date[]{new Date(5), new Date(15)});
-        ResponseDTO response = accountDao.addApplication(data);
-        assertFalse(response.isSuccess());
-        utx.commit();
+        accountView.setApplicationCompetences(new int[]{1, 2});
+        accountView.setExperiance(new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)});
+        accountView.setFromDate(new Date[]{new Date(1), new Date(10)});
+        accountView.setToDate(new Date[]{new Date(5), new Date(15)});
+        accountView.addApplication("notTaken");
+        assertEquals(accountView.getRequestResponse(), "applicationFailed");
     }
 
     /**
@@ -343,11 +318,11 @@ public class AccountDAOTest {
      */
     @Test
     public void testAddApplication_applicationExists() throws Exception {
-        utx.begin();
-        em.joinTransaction();
-        ApplicationDTO data = new ApplicationDTO("borg", new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)}, new int[]{1, 2}, new Date[]{new Date(1), new Date(10)}, new Date[]{new Date(5), new Date(15)});
-        ResponseDTO response = accountDao.addApplication(data);
-        assertFalse(response.isSuccess());
-        utx.commit();
+        accountView.setApplicationCompetences(new int[]{1, 2});
+        accountView.setExperiance(new BigDecimal[]{new BigDecimal(1.2), new BigDecimal(2.5)});
+        accountView.setFromDate(new Date[]{new Date(1), new Date(10)});
+        accountView.setToDate(new Date[]{new Date(5), new Date(15)});
+        accountView.addApplication("borg");
+        assertEquals(accountView.getRequestResponse(), "applicationFailed");
     }
 }

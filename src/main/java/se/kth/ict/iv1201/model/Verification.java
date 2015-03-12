@@ -22,10 +22,31 @@ public class Verification {
      */
     public ResponseDTO verifyAccount(AccountDTO data) {
 
-        if (data.getPassword().length() < 8) {
+        if (data.getPassword() == null || data.getPassword().length() < 8) {
             return new ResponseDTO(false, "passwordVerFaild", "min8Char");
         }
-        return new ResponseDTO(true, "accountDataValid.");
+   
+        if (data.getEmail() == null || data.getEmail().length() < 1){
+            return new ResponseDTO(false, "fieldVerFaild", "missingEmail");
+        }
+        
+        if (data.getFirstname() == null || data.getFirstname().length() < 1){
+            return new ResponseDTO(false, "fieldVerFaild", "missingFirstname");
+        }
+        
+        if (data.getLastname()== null || data.getLastname().length() < 1){
+            return new ResponseDTO(false, "fieldVerFaild", "missingLastname");
+        }
+        
+        if (data.getSsn() == null || data.getSsn().length() < 1){
+            return new ResponseDTO(false, "fieldVerFaild", "missingSsn");
+        }
+        
+        if (data.getUsername()== null || data.getUsername().length() < 1){
+            return new ResponseDTO(false, "fieldVerFaild", "missingUsername");
+        }
+        
+        return new ResponseDTO(true, "accountDataValid");
     }
 
     /**

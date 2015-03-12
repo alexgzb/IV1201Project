@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import se.kth.ict.iv1201.model.Verification;
 import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dao.JobDAO;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
@@ -24,6 +25,7 @@ import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class JobController {
     
+    private Verification verification;
     @EJB
     private JobDAO jobDAO;
     @EJB
