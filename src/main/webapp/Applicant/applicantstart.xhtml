@@ -4,15 +4,62 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="/templates/commonlayout.xhtml">
+                template="/templates/commonlayout.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">Applicant #{messages.page}</ui:define>
     <ui:define name="content">
         <div>
-            <h:form>
+            <f:metadata>
+                <f:event type="preRenderView" listener="#{accountView.getCompetences(messages.code)}"/>
+            </f:metadata>
+            <h:form id="application">
+                <p:growl id="growl" life="2000" />
                 <h:commandButton value="#{messages.logout}" action="#{sessionView.logout()}"/>
+                <br/>
+                <p:panelGrid columns="5">
+                    <p:outputLabel for="inlineFrom" value="#{messages.from}" />
+                    <p:calendar id="inlineFrom" value="#{accountView.tempFrom}" mode="inline" />
+                    <p:outputLabel for="inlineTo" value="#{messages.to}" />
+                    <p:calendar id="inlineTo" value="#{accountView.tempTo}" mode="inline" />
+                    <p:commandButton value="#{messages.submitAvailability}" id="ajax1" update="growl, table" actionListener="#{accountView.addDates()}"/>
+                </p:panelGrid>
+                <p:commandButton value="#{messages.removeAvailability}" id="ajax2" update="growl, table" actionListener="#{accountView.removeDates()}"/>
+                <br/>
+                <h:panelGrid columns="5">
+                    <p:outputLabel for="competenceList" value="#{messages.competence}" />
+                    <p:selectOneMenu id="competenceList" value="#{accountView.competence}"  converter="cConverter">
+                        <f:selectItems value="#{accountView.competences}" />
+                    </p:selectOneMenu>
+                    <h:outputLabel for="step" value="#{messages.competence}" />
+                    <p:spinner id="step" value="#{accountView.tempExperiance}" stepFactor="0.25" />
+                    <p:commandButton value="#{messages.submitCompetence}" id="ajax3" update="growl, table2" actionListener="#{accountView.addComps()}"/>
+                </h:panelGrid>
+                <p:commandButton value="#{messages.removeCompetence}" id="ajax4" update="growl, table2" actionListener="#{accountView.removeComps()}"/>
+                <br/>
+                <p:dataTable id="table" var="dates" value="#{accountView.dates}">
+                    <p:column headerText="From">
+                        <h:outputText value="#{dates.fromDate}" />
+                    </p:column>
+                    <p:column headerText="To">
+                        <h:outputText value="#{dates.toDate}" />
+                    </p:column>
+                </p:dataTable>
+                <p:dataTable id="table2" var="comps" value="#{accountView.comps}">
+                    <p:column headerText="From">
+                        <h:outputText value="#{comps.competence}" />
+                    </p:column>
+                    <p:column headerText="To">
+                        <h:outputText value="#{comps.experiance}" />
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="#{messages.addAppli}" id="ajax5" update="growl, out1, out2" actionListener="#{accountView.addApplication('test101')}"/>
+                <br/>
+                <h:outputText id="out1" value="#{messages[accountView.requestResponse]}" />
+                <br/>
+                <h:outputText id="out2" value="#{messages[accountView.errorMessage]}" />
             </h:form>
-            <h:outputLabel value="#{messages.welcomeApplicant}" />
         </div>
     </ui:define>
 </ui:composition>
