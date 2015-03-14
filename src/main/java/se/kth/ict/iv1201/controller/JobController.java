@@ -77,6 +77,7 @@ public class JobController {
      * @param dateTimeModified Date/time of when the applicant last was modified
      * @return True if the applicant has been modified, false if not
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public boolean isModified(int personID, Date dateTimeModified){
         return jobDAO.isModified(personID, dateTimeModified);
     }
@@ -87,6 +88,7 @@ public class JobController {
      * @param languageCode Language code
      * @return A <code>QueriedApplicationDTO</code> that represents the current state of the application
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public QueriedApplicationDTO getApplication(String username, String languageCode){
         return jobDAO.getApplication(username, languageCode);
     }
