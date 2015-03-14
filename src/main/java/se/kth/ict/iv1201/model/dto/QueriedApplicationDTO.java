@@ -1,6 +1,7 @@
 
 package se.kth.ict.iv1201.model.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -15,6 +16,8 @@ public class QueriedApplicationDTO {
     private Date registrationDate;
     private boolean hired;
     private Date lastModified;
+    private ArrayList<QueriedApplicationAvailabilityDTO> availabilites;
+    private ArrayList<QueriedApplicationCompetenceDTO> competencies;
 
     /**
      *
@@ -40,10 +43,18 @@ public class QueriedApplicationDTO {
         this.lastModified = lastModified;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPersonID() {
         return personID;
     }
 
+    /**
+     *
+     * @param personID
+     */
     public void setPersonID(int personID) {
         this.personID = personID;
     }
@@ -129,6 +140,40 @@ public class QueriedApplicationDTO {
     public Date getLastModified() {
         return lastModified;
     }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<QueriedApplicationAvailabilityDTO> getAvailabilites() {
+        return availabilites;
+    }
+
+    /**
+     *
+     * @param availabilites
+     */
+    public void setAvailabilites(ArrayList<QueriedApplicationAvailabilityDTO> availabilites) {
+        this.availabilites = availabilites;
+    }
+
+    /**
+     *
+     * @param competencies
+     */
+    public void setCompetencies(ArrayList<QueriedApplicationCompetenceDTO> competencies) {
+        this.competencies = competencies;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<QueriedApplicationCompetenceDTO> getCompetencies() {
+        return competencies;
+    }
+    
+    
     
     
     

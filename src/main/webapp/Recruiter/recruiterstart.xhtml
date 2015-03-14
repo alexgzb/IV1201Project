@@ -33,7 +33,7 @@
             <p:calendar id="enddate" value="#{jobView.endDate}"/>
 
 
-            <p:commandButton value="#{messages.submit}" update=":applicationform:applicationstable" actionListener="#{jobView.loadQueriedApplications(messages.dateIntervalErrorHeader, messages.dateIntervalErrorStartPrecedesEnd, messages.dateIntervalErrorNotComplete)}"/>
+            <p:commandButton value="#{messages.submit}" update=":applicationform:applicationstable" actionListener="#{jobView.loadQueriedApplications(messages.code,messages.dateIntervalErrorHeader, messages.dateIntervalErrorStartPrecedesEnd, messages.dateIntervalErrorNotComplete)}"/>
         </h:panelGrid>
     </h:form>
     
@@ -51,7 +51,7 @@
                       selection="#{jobView.selectedApplication}" selectionMode="single"
                       rows="10" paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="1,10,100,1000">>
+                         rowsPerPageTemplate="1,10,100,1000">
 
             <p:column headerText="#{messages.firstname}" sortBy="#{appl.firstname}">
                 <h:outputText value="#{appl.firstname}" />
