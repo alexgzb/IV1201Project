@@ -5,27 +5,58 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
                 template="/templates/commonlayout.xhtml">
 
     <ui:define name="title"></ui:define>
     <ui:define name="content">
         <h:form>
-            <h:panelGrid>
+            <p:messages id="messages" autoUpdate="true" closable="true" />
+            
+            <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel value="#{messages.username}"/>
-                <h:inputText id="username" value="#{accountView.username}" pt:required="" pt:type="text" />
-                <h:outputLabel value="#{messages.password}"/>
-                <h:inputText id="password" value="#{accountView.password}" pt:required="" pt:type="password" pt:placeholder="#{messages.enter8CharsMinimum}"/>
+                <p:inputText id="username" value="#{accountView.username}" required="true"
+                             requiredMessage="#{messages.usernameRequired}" validatorMessage="#{messages.illegalCharactersUsername}">
+                    <f:validateRegex pattern="[a-zA-Z ]*" />
+                </p:inputText>
+                
+                
+                <h:outputLabel for="pwd1" value="#{messages.password}" />
+                <p:password id="pwd1" value="#{accountView.password}"
+                            label="#{messages.password}" required="true" requiredMessage="#{messages.passwordRequired}"
+                            feedback="true" weakLabel="#{messages.weak}"  goodLabel="#{messages.good}"
+                            strongLabel="#{messages.strong}" promptLabel="#{messages.defineAPassword}"
+                            placeholder="#{messages.enter8CharsMinimum}" validatorMessage="#{messages.min8Char}" >
+                    <f:validateLength minimum="8"/>
+                </p:password>
+
+                
+                
                 <h:outputLabel value="#{messages.firstname}"/>
-                <h:inputText id="firstname" value="#{accountView.firstname}" pt:required="" pt:type="text" />
+                <p:inputText id="firstname" value="#{accountView.firstname}" required="true"
+                             requiredMessage="#{messages.firstnameRequired}" validatorMessage="#{messages.illegalCharactersFirstname}">
+                    <f:validateRegex pattern="[a-zA-Z ]*" />
+                </p:inputText>
+                
                 <h:outputLabel value="#{messages.lastname}"/>
-                <h:inputText id="lastname" value="#{accountView.lastname}" pt:required="" pt:type="text" />
+                <p:inputText id="lastname" value="#{accountView.lastname}" required="true"
+                             requiredMessage="#{messages.lastnameRequired}" validatorMessage="#{messages.illegalCharactersLastname}">
+                    <f:validateRegex pattern="[a-zA-Z ]*" />
+                </p:inputText>
+                
                 <h:outputLabel value="#{messages.email}"/>
-                <h:inputText id="email" value="#{accountView.email}" pt:required="" pt:type="email" />
+                <p:inputText id="email" value="#{accountView.email}" required="true"
+                             requiredMessage="#{messages.emailRequired}"
+                             validatorMessage="#{messages.emailImproperFormat}" type="email" >
+                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+                
                 <h:outputLabel value="#{messages.ssn}"  />
-                <h:inputText id="ssn" value="#{accountView.ssn }" pt:pattern="\d{12}" pt:required="" pt:type="text" pt:placeholder="#{messages.ssnFormat}"/>
-                <h:commandLink action="#{accountView.getCompetences(messages.code)}"> 
-                    <input type="submit" value="Test comp" />
-                </h:commandLink>
+                <p:inputText id="ssn" value="#{accountView.ssn}" placeholder="#{messages.ssnFormat}" required="true"
+                             requiredMessage="#{messages.ssnRequired}" validatorMessage="#{messages.ssnImproperFormat}">
+                    <f:validateRegex pattern="\d{12}"/>
+                </p:inputText>
+                
             </h:panelGrid>
             <h:commandButton value="#{messages.makeAcc}" action="#{accountView.newAccount}"/>
         </h:form>
@@ -34,9 +65,6 @@
         <br/>
         <h:outputLabel value="#{messages[accountView.errorMessage]}"/>
         <br/>
-        <ui:repeat value="#{accountView.competences}" var="comp">
-            #{comp}<br/>
-        </ui:repeat>
     </ui:define>
 </ui:composition>
 
