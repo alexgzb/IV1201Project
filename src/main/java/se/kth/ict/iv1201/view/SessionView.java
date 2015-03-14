@@ -1,6 +1,4 @@
-
 package se.kth.ict.iv1201.view;
-
 
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
@@ -13,8 +11,9 @@ import se.kth.ict.iv1201.controller.SessionController;
 import se.kth.ict.iv1201.util.log.Log;
 
 /**
- * Session bean that handles login and logout protocols. Directs users to their respective resources
- * depending on what security group they belong to.
+ * Session bean that handles login and logout protocols. Directs users to their
+ * respective resources depending on what security group they belong to.
+ *
  * @author Christian Schreil
  */
 @Named("sessionView")
@@ -26,9 +25,9 @@ public class SessionView implements Serializable {
     private String password;
     @Inject
     private SessionController controller;
-    
+
     /**
-     * 
+     *
      * @return
      */
     public String getUsername() {
@@ -60,8 +59,11 @@ public class SessionView implements Serializable {
     }
 
     /**
-     * Provides the basic protocol for handling user authorization and authentication
-     * @return URL to the resource that belongs to the user's specific user group
+     * Provides the basic protocol for handling user authorization and
+     * authentication
+     *
+     * @return URL to the resource that belongs to the user's specific user
+     * group
      */
     public String login() {
         String resourceURL = "loginerror";
@@ -79,35 +81,20 @@ public class SessionView implements Serializable {
 
     /**
      * Ends the session with the user by releasing the context.
+     *
      * @return URL to index
      */
     public String logout() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
             request.logout();
         } catch (ServletException e) {
+        } catch (Exception ex) {
+            
         }
-        
+
         return "/index.xhtml";
     }
-    
-    /**
-     * Not Needed with Dynamic Navigation
-     * 
-     * @param pointer
-     * @return 
-     */
-    private String getUserResourceURL(String pointer){
-        
-        String location;
-        
-        if(pointer.equals("Applicant")){
-            location = "Applicant/applicantstart";
-        } else {
-            location = "Recruiter/recruiterstart";
-        }
-        
-        return location;
-    }
+
 }
