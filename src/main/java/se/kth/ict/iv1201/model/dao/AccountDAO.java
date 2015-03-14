@@ -196,7 +196,8 @@ public class AccountDAO {
      * @param password Password without encryption.
      * @return Encrypted password string.
      */
-    public String encryptPassword(String password) {
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public static String encryptPassword(String password) {
 
         MessageDigest messageDigest;
         byte[] hash = null;

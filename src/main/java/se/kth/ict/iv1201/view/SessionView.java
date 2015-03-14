@@ -23,6 +23,7 @@ public class SessionView implements Serializable {
 
     private String username;
     private String password;
+    private String errorMessage;
     @Inject
     private SessionController controller;
 
@@ -58,6 +59,14 @@ public class SessionView implements Serializable {
         this.password = password;
     }
 
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
     /**
      * Provides the basic protocol for handling user authorization and
      * authentication
@@ -67,13 +76,15 @@ public class SessionView implements Serializable {
      */
     public String login() {
         String resourceURL = "loginerror";
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
             request.login(this.username, this.password);
             resourceURL = controller.getUserRole(this.username);
         } catch (ServletException ex) {
             //Fall through
+        } catch (Exception e) {
+            setErrorMessage("unknownError");
         }
 
         return resourceURL;
@@ -91,7 +102,7 @@ public class SessionView implements Serializable {
             request.logout();
         } catch (ServletException e) {
         } catch (Exception ex) {
-            
+            setErrorMessage("unknownEror");
         }
 
         return "/index.xhtml";

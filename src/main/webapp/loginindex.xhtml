@@ -18,7 +18,9 @@
                 </h:panelGrid>
                 <h:commandButton value="#{messages.loginText}" action="#{sessionView.login()}"/>
             </h:form>
-            
+            <br/>
+            <h:outputLabel value="#{messages[sessionView.errorMessage]}"/>
+            <br/>
         </div>
     </ui:define>
 </ui:composition>
