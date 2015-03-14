@@ -14,8 +14,11 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import se.kth.ict.iv1201.model.dto.QueriedApplicationAvailabilityDTO;
+import se.kth.ict.iv1201.model.dto.QueriedApplicationCompetenceDTO;
 import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
 import se.kth.ict.iv1201.model.entities.Application;
+import se.kth.ict.iv1201.model.entities.Language;
 
 /**
  * DAO that handles transactions related to job queries.
@@ -29,6 +32,7 @@ public class JobDAO {
     private EntityManager em;
     
     private Query query;
+    private final boolean isDetailed = false; //Regulates if queried applications should be detailed or not
 
     /**
      * Retrieves available applications from the database
@@ -36,6 +40,7 @@ public class JobDAO {
      * @param nameSearch Explicit name to be queried
      * @param startDate Start date of the interval, if any
      * @param endDate End date of the interval, if any
+     * @param languageCode Language code
      * @return An <code>ArrayList</code> of <code>QueriedApplicationDTO</code> objects
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -43,7 +48,8 @@ public class JobDAO {
             String[] competences,
             String nameSearch,
             Date startDate,
-            Date endDate) {
+            Date endDate,
+            String languageCode) {
         
         Date localStartDate;
         Date localEndDate;
@@ -72,6 +78,27 @@ public class JobDAO {
         
         ArrayList<QueriedApplicationDTO> result = new ArrayList(query.getResultList());
 
+        if(isDetailed){
+            Language lang = em.createNamedQuery("Language.findByLanguageCode", Language.class
+            ).setParameter("languageCode", languageCode).getSingleResult();
+
+            for (QueriedApplicationDTO q : result) {
+                int personid = q.getPersonID();
+                query = em.createQuery("SELECT NEW se.kth.ict.iv1201.model.dto.QueriedApplicationAvailabilityDTO(j.applicationAvailabilityID,j.fromDate,j.toDate) FROM Application a JOIN a.applicationAvailabilityCollection j WHERE a.personID = :personid", QueriedApplicationAvailabilityDTO.class);
+                query.setParameter("personid", personid);
+
+                ArrayList<QueriedApplicationAvailabilityDTO> availabilites = new ArrayList(query.getResultList());
+                query = em.createQuery("SELECT NEW se.kth.ict.iv1201.model.dto.QueriedApplicationCompetenceDTO(k.competenceID,l.description,j.yearsOFExperience) FROM Application a JOIN a.applicationCompetenceCollection j JOIN j.competenceID k JOIN k.competenceTranslationCollection l WHERE a.personID = :personid AND l.languageCode = :lang", QueriedApplicationCompetenceDTO.class);
+                query.setParameter("personid", personid);
+                query.setParameter("lang", lang);
+
+                ArrayList<QueriedApplicationCompetenceDTO> competencies = new ArrayList(query.getResultList());
+
+                q.setAvailabilites(availabilites);
+                q.setCompetencies(competencies);
+            }
+        }
+        
         return result;
     }
 
@@ -106,6 +133,7 @@ public class JobDAO {
      * @param dateTimeModified Date/time of when the applicant last was modified
      * @return True if the applicant has been modified, false if not
      */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public boolean isModified(int personID, Date dateTimeModified){
         Application application = (Application) em.find(Application.class, personID);
         
@@ -121,6 +149,41 @@ public class JobDAO {
                 
     }
     
+    /**
+     * Retrieve specific application from the database
+     * @param username Name of the user that currently is logged on
+     * @param languageCode Language code
+     * @return A <code>QueriedApplicationDTO</code> that represents the current state of the application
+     */
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public QueriedApplicationDTO getApplication(String username, String languageCode){
+        
+        Language lang = em.createNamedQuery("Language.findByLanguageCode", Language.class
+        ).setParameter("languageCode", languageCode).getSingleResult();
+        
+        query = em.createQuery("SELECT DISTINCT NEW se.kth.ict.iv1201.model.dto.QueriedApplicationDTO(j.personID,j.firstname, j.lastname, k.registrationDate, k.hired, k.lastModified) FROM User a JOIN a.personCollection j JOIN j.application k WHERE a.username = :user",QueriedApplicationDTO.class);
+        query.setParameter("user", username);
+        
+        QueriedApplicationDTO application = (QueriedApplicationDTO) query.getSingleResult();
+        
+        if(application == null){
+            query = em.createQuery("SELECT NEW se.kth.ict.iv1201.model.dto.QueriedApplicationAvailabilityDTO(j.applicationAvailabilityID,j.fromDate,j.toDate) FROM Application a JOIN a.applicationAvailabilityCollection j WHERE a.personID = :personid", QueriedApplicationAvailabilityDTO.class);
+            query.setParameter("personid", application.getPersonID());
+
+            ArrayList<QueriedApplicationAvailabilityDTO> availabilites = new ArrayList(query.getResultList());
+            query = em.createQuery("SELECT NEW se.kth.ict.iv1201.model.dto.QueriedApplicationCompetenceDTO(k.competenceID,l.description,j.yearsOFExperience) FROM Application a JOIN a.applicationCompetenceCollection j JOIN j.competenceID k JOIN k.competenceTranslationCollection l WHERE a.personID = :personid AND l.languageCode = :lang", QueriedApplicationCompetenceDTO.class);
+            query.setParameter("personid", application.getPersonID());
+            query.setParameter("lang", lang);
+
+            ArrayList<QueriedApplicationCompetenceDTO> competencies = new ArrayList(query.getResultList());
+
+            application.setAvailabilites(availabilites);
+            application.setCompetencies(competencies);
+        }
+        
+        return application;
+        
+    }
     
     
 }

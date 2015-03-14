@@ -43,6 +43,7 @@ public class JobController {
 
     /**
      * Retrieves available applications from the database
+     * @param languageCode Language code
      * @param competences What competencies should be queried
      * @param nameSearch Explicit name to be queried
      * @param startDate Start date of the interval, if any
@@ -51,11 +52,12 @@ public class JobController {
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public ArrayList<QueriedApplicationDTO> getQueriedApplications(
+            String languageCode,
             String[] competences,
             String nameSearch,
             Date startDate,
             Date endDate) {
-        return jobDAO.getQueriedApplications(competences, nameSearch, startDate, endDate);
+        return jobDAO.getQueriedApplications(competences, nameSearch, startDate, endDate,languageCode);
     }
 
     /**
@@ -77,6 +79,16 @@ public class JobController {
      */
     public boolean isModified(int personID, Date dateTimeModified){
         return jobDAO.isModified(personID, dateTimeModified);
+    }
+    
+    /**
+     * Retrieve specific application from the database
+     * @param username Name of the user that currently is logged on
+     * @param languageCode Language code
+     * @return A <code>QueriedApplicationDTO</code> that represents the current state of the application
+     */
+    public QueriedApplicationDTO getApplication(String username, String languageCode){
+        return jobDAO.getApplication(username, languageCode);
     }
     
     
