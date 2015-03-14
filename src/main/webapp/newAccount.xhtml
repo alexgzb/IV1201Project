@@ -5,7 +5,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-                template="/templates/commonlayout.xhtml">
+                template="/templates/commonlayout.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="title"></ui:define>
     <ui:define name="content">
@@ -23,9 +24,6 @@
                 <h:inputText id="email" value="#{accountView.email}" pt:required="" pt:type="email" />
                 <h:outputLabel value="#{messages.ssn}"  />
                 <h:inputText id="ssn" value="#{accountView.ssn }" pt:pattern="\d{12}" pt:required="" pt:type="text" pt:placeholder="#{messages.ssnFormat}"/>
-                <h:commandLink action="#{accountView.getCompetences(messages.code)}"> 
-                    <input type="submit" value="Test comp" />
-                </h:commandLink>
             </h:panelGrid>
             <h:commandButton value="#{messages.makeAcc}" action="#{accountView.newAccount}"/>
         </h:form>
@@ -33,10 +31,10 @@
         <h:outputLabel value="#{messages[accountView.requestResponse]}"/>
         <br/>
         <h:outputLabel value="#{messages[accountView.errorMessage]}"/>
-        <br/>
-        <ui:repeat value="#{accountView.competences}" var="comp">
-            #{comp}<br/>
-        </ui:repeat>
+        <c:if test="${accountView.requestResponse == 'accountCreated'}">
+            <br/>
+            <h:link outcome="loginindex" value="#{messages.loginText}" />
+        </c:if>
     </ui:define>
 </ui:composition>
 
