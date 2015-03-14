@@ -87,11 +87,13 @@ public class JobView implements Serializable {
     /**
      * Upon having set search parameters (like selected competencies and date interval),
      * applications that match these constraints are loaded into a local variable.
+     * @param languageCode Language code
      * @param dateIntervalErrorHeader
      * @param dateIntervalErrorStartPrecedesEnd
      * @param dateIntervalErrorNotComplete
      */
     public void loadQueriedApplications(
+            String languageCode,
             String dateIntervalErrorHeader,
             String dateIntervalErrorStartPrecedesEnd,
             String dateIntervalErrorNotComplete){
@@ -103,7 +105,7 @@ public class JobView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, dateIntervalErrorHeader, dateIntervalErrorStartPrecedesEnd));
             } else {
                applications = null;
-               applications = controller.getQueriedApplications(selectedCompetences,nameSearch,startDate,endDate); 
+               applications = controller.getQueriedApplications(languageCode,selectedCompetences,nameSearch,startDate,endDate); 
             } 
         } 
     }
