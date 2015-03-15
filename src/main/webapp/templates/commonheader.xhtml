@@ -6,25 +6,26 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <f:view locale="#{locale.locale}">
-    <body>
-        <ui:composition>
-            <div>
-                <h1>Common Header</h1>
-                <div id="language">
-                    <h:form>
-                        <h:commandLink action="#{locale.changeLocale}">
-                            <f:param name="languageCode" value="sv"/>
-                            <h:graphicImage value="/images/sv.png"/>
-                        </h:commandLink>
-                        <p:spacer width="5"/>
-                        <h:commandLink action="#{locale.changeLocale}">
-                            <f:param name="languageCode" value="en"/>
-                            <h:graphicImage value="/images/uk.png"/>
-                        </h:commandLink>
-                    </h:form>
+        <body>
+            <ui:composition>
+                <div>
+                    <h:link outcome="index" value="#{messages.home}" />
+                    <h1>#{messages.commonHeader}</h1>
+                    <div id="language">
+                        <h:form>
+                            <h:commandLink action="#{locale.changeLocale}">
+                                <f:param name="languageCode" value="sv"/>
+                                <h:graphicImage value="/images/sv.png"/>
+                            </h:commandLink>
+                            <p:spacer width="5"/>
+                            <h:commandLink action="#{locale.changeLocale}">
+                                <f:param name="languageCode" value="en"/>
+                                <h:graphicImage value="/images/uk.png"/>
+                            </h:commandLink>
+                        </h:form>
+                    </div>
                 </div>
-            </div>
-        </ui:composition>
-    </body>
+            </ui:composition>
+        </body>
     </f:view>
 </html>
