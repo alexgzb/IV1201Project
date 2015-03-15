@@ -18,7 +18,6 @@ import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import se.kth.ict.iv1201.controller.SessionController;
 import se.kth.ict.iv1201.model.dao.AccountDAO;

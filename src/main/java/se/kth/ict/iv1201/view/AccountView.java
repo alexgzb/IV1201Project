@@ -80,6 +80,8 @@ public class AccountView implements Serializable {
         savedDates = new ArrayList<DatesDTO>();
         savedAvailability = new ArrayList<QueriedApplicationAvailabilityDTO>();
         savedCompetence = new ArrayList<QueriedApplicationCompetenceDTO>();
+        requestResponse = null;
+        errorMessage = null;
     }
 
     /**
@@ -137,18 +139,21 @@ public class AccountView implements Serializable {
      * @param username The username for the account that will get the added
      * application
      */
-    public void addApplication(String username) {
+    public String addApplication(String username) {
         try {
             ResponseDTO application = controller.addApplication(new ApplicationDTO(username, getExperiance(), getApplicationCompetences(), fromDate.toArray(new Date[fromDate.size()]), toDate.toArray(new Date[toDate.size()])));
             requestResponse = application.getStatusMessage();
             errorMessage = null;
             if (!application.isSuccess()) {
                 errorMessage = application.getErrorMessage();
+                return null;
             }
         } catch (Exception e) {
             requestResponse = "unknownEror";
             errorMessage = null;
+            return null;
         }
+        return "success";
     }
 
     public ArrayList<CompetenceDTO> getCompetences() {

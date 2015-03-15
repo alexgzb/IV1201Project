@@ -8,7 +8,7 @@ import javax.inject.Named;
 import se.kth.ict.iv1201.util.log.Log;
 
 /**
- * Sets the correct locale for the entire application.
+ * Sets the correct locale for the session.
  */
 @Log
 @Named(value="locale")

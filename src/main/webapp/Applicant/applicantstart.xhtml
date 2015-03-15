@@ -18,29 +18,32 @@
                 <p:growl id="growl" life="2000" />
                 <c:choose>
                     <c:when test="#{accountView.hasApplication(sessionView.username, messages.code)}">
-                        <p:outputLabel value="#{accountView.firstname}" />
-                        <br/>
-                        <p:outputLabel value="#{accountView.lastname}" />
-                        <br/>
-                        <p:outputLabel value="#{accountView.register}" />
-                        <br/>
-                        <p:outputLabel value="#{accountView.modified}" />
-                        <br/>
-                        <p:outputLabel value="#{accountView.hired}" />
+                        <p:panelGrid columns="2">
+                            <p:outputLabel for="firstname" value="#{messages.firstname}"/>
+                            <p:outputLabel id="firstname" value="#{accountView.firstname}" />
+                            <p:outputLabel for="lastname" value="#{messages.lastname}"/>
+                            <p:outputLabel id="lastname" value="#{accountView.lastname}" />
+                            <p:outputLabel for="registerDate" value="#{messages.dateOfRegistration}"/>
+                            <p:outputLabel id="registerDate" value="#{accountView.register}" />
+                            <p:outputLabel for="modifiedDate" value="#{messages.dateOfRegistration}"/>
+                            <p:outputLabel id="modifiedDate" value="#{accountView.modified}" />
+                            <p:outputLabel for="hired" value="#{messages.hired}"/>
+                            <p:selectBooleanCheckbox id="hired" value="#{accountView.hired}" disabled="true" />
+                        </p:panelGrid>
                         <br/>
                         <p:dataTable id="table3" var="dates" value="#{accountView.savedDates}">
-                            <p:column headerText="From">
+                            <p:column headerText="#{messages.from}">
                                 <h:outputText value="#{dates.fromDate}" />
                             </p:column>
-                            <p:column headerText="To">
+                            <p:column headerText="#{messages.to}">
                                 <h:outputText value="#{dates.toDate}" />
                             </p:column>
                         </p:dataTable>
                         <p:dataTable id="table4" var="comps" value="#{accountView.savedComps}">
-                            <p:column headerText="From">
+                            <p:column headerText="#{messages.competencies}">
                                 <h:outputText value="#{comps.competence}" />
                             </p:column>
-                            <p:column headerText="To">
+                            <p:column headerText="#{messages.experienceYears}">
                                 <h:outputText value="#{comps.experiance}" />
                             </p:column>
                         </p:dataTable>
@@ -66,21 +69,24 @@
                         </h:panelGrid>
                         <p:commandButton value="#{messages.removeCompetence}" id="ajax4" update="growl, table2" actionListener="#{accountView.removeComps()}"/>
                         <br/>
-                        <p:commandButton value="#{messages.addAppli}" id="ajax5" update="table, growl" actionListener="#{accountView.addApplication(sessionView.username)}"/>
+                        <h:commandButton value="#{messages.addAppli}" action="#{accountView.addApplication(sessionView.username)}"/>
+                        <!--
+                        <p:commandButton value="#{messages.addAppli}" id="ajax5" update="growl" actionListener="#{accountView.addApplication(sessionView.username)}"/>
+                        -->
                         <br/>
                         <p:dataTable id="table" var="dates" value="#{accountView.dates}">
-                            <p:column headerText="From">
+                            <p:column headerText="#{messages.from}">
                                 <h:outputText value="#{dates.fromDate}" />
                             </p:column>
-                            <p:column headerText="To">
+                            <p:column headerText="#{messages.to}">
                                 <h:outputText value="#{dates.toDate}" />
                             </p:column>
                         </p:dataTable>
                         <p:dataTable id="table2" var="comps" value="#{accountView.comps}">
-                            <p:column headerText="From">
+                            <p:column headerText="#{messages.competencies}">
                                 <h:outputText value="#{comps.competence}" />
                             </p:column>
-                            <p:column headerText="To">
+                            <p:column headerText="#{messages.experienceYears}">
                                 <h:outputText value="#{comps.experiance}" />
                             </p:column>
                         </p:dataTable>

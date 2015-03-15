@@ -2,10 +2,7 @@ package se.kth.ict.iv1201.view;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.EJBTransactionRolledbackException;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -124,7 +121,7 @@ public class JobViewTest {
         jobView.setNameSearch("");
         jobView.loadQueriedApplications(languageCode, dateIntervalErrorHeader, dateIntervalErrorStartPrecedesEnd, dateIntervalErrorNotComplete);
         ArrayList<QueriedApplicationDTO> queriedApplications = jobView.getQueriedApplications();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = queriedApplications.isEmpty();
         assertEquals(expResult, result);
     }
@@ -146,181 +143,9 @@ public class JobViewTest {
         jobView.loadQueriedApplications(languageCode, dateIntervalErrorHeader, dateIntervalErrorStartPrecedesEnd, dateIntervalErrorNotComplete);
         ArrayList<QueriedApplicationDTO> queriedApplications = jobView.getQueriedApplications();
         // System.out.println("Size of QueriedApplications " + queriedApplications.size());
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = queriedApplications.isEmpty();
         assertEquals(expResult, result);
     }
     
-    
-//
-//    /**
-//     * Test of getSelectedApplication method, of class JobView.
-//     */
-//    @Test
-//    public void testGetSelectedApplication() {
-//        System.out.println("getSelectedApplication");
-//        JobView instance = new JobView();
-//        QueriedApplicationDTO expResult = null;
-//        QueriedApplicationDTO result = instance.getSelectedApplication();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setSelectedApplication method, of class JobView.
-//     */
-//    @Test
-//    public void testSetSelectedApplication() {
-//        System.out.println("setSelectedApplication");
-//        QueriedApplicationDTO selectedApplication = null;
-//        JobView instance = new JobView();
-//        instance.setSelectedApplication(selectedApplication);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of fireApplicant method, of class JobView.
-//     */
-//    @Test
-//    public void testFireApplicant() {
-//        System.out.println("fireApplicant");
-//        String errorMessageHeader = "";
-//        String errorMessageBody = "";
-//        String notOKMessageHeader = "";
-//        String notOKMessageBody = "";
-//        String okMessageHeader = "";
-//        String okMessageBody = "";
-//        JobView instance = new JobView();
-//        instance.fireApplicant(errorMessageHeader, errorMessageBody, notOKMessageHeader, notOKMessageBody, okMessageHeader, okMessageBody);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of hireApplicant method, of class JobView.
-//     */
-//    @Test
-//    public void testHireApplicant() {
-//        System.out.println("hireApplicant");
-//        String errorMessageHeader = "";
-//        String errorMessageBody = "";
-//        String notOKMessageHeader = "";
-//        String notOKMessageBody = "";
-//        String okMessageHeader = "";
-//        String okMessageBody = "";
-//        JobView instance = new JobView();
-//        instance.hireApplicant(errorMessageHeader, errorMessageBody, notOKMessageHeader, notOKMessageBody, okMessageHeader, okMessageBody);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of updateApplication method, of class JobView.
-//     */
-//    @Test
-//    public void testUpdateApplication() {
-//        System.out.println("updateApplication");
-//        JobView instance = new JobView();
-//        instance.updateApplication();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getQueriedApplications method, of class JobView.
-//     */
-//    @Test
-//    public void testGetQueriedApplications() {
-//        System.out.println("getQueriedApplications");
-//        JobView instance = new JobView();
-//        ArrayList<QueriedApplicationDTO> expResult = null;
-//        ArrayList<QueriedApplicationDTO> result = instance.getQueriedApplications();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setNameSearch method, of class JobView.
-//     */
-//    @Test
-//    public void testSetNameSearch() {
-//        System.out.println("setNameSearch");
-//        String nameSearch = "";
-//        JobView instance = new JobView();
-//        instance.setNameSearch(nameSearch);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getNameSearch method, of class JobView.
-//     */
-//    @Test
-//    public void testGetNameSearch() {
-//        System.out.println("getNameSearch");
-//        JobView instance = new JobView();
-//        String expResult = "";
-//        String result = instance.getNameSearch();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setStartDate method, of class JobView.
-//     */
-//    @Test
-//    public void testSetStartDate() {
-//        System.out.println("setStartDate");
-//        Date startDate = null;
-//        JobView instance = new JobView();
-//        instance.setStartDate(startDate);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of setEndDate method, of class JobView.
-//     */
-//    @Test
-//    public void testSetEndDate() {
-//        System.out.println("setEndDate");
-//        Date endDate = null;
-//        JobView instance = new JobView();
-//        instance.setEndDate(endDate);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getStartDate method, of class JobView.
-//     */
-//    @Test
-//    public void testGetStartDate() {
-//        System.out.println("getStartDate");
-//        JobView instance = new JobView();
-//        Date expResult = null;
-//        Date result = instance.getStartDate();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of getEndDate method, of class JobView.
-//     */
-//    @Test
-//    public void testGetEndDate() {
-//        System.out.println("getEndDate");
-//        JobView instance = new JobView();
-//        Date expResult = null;
-//        Date result = instance.getEndDate();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//    
 }
