@@ -66,7 +66,7 @@
                         </h:panelGrid>
                         <p:commandButton value="#{messages.removeCompetence}" id="ajax4" update="growl, table2" actionListener="#{accountView.removeComps()}"/>
                         <br/>
-                        <p:commandButton value="#{messages.addAppli}" id="ajax5" update="output, growl" actionListener="#{accountView.addApplication(sessionView.username)}"/>
+                        <p:commandButton value="#{messages.addAppli}" id="ajax5" update="table, growl" actionListener="#{accountView.addApplication(sessionView.username)}"/>
                         <br/>
                         <p:dataTable id="table" var="dates" value="#{accountView.dates}">
                             <p:column headerText="From">
@@ -91,7 +91,7 @@
                     <h:outputText id="out1" value="#{messages[accountView.requestResponse]}" />
                     <br/>
                     <h:outputText id="out2" value="#{messages[accountView.errorMessage]}" />
-                    <p:outputPanel />
+                </p:outputPanel >
             </h:form>
         </div>
     </ui:define>
