@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a"),
     @NamedQuery(name = "Application.findByPersonID", query = "SELECT a FROM Application a WHERE a.personID = :personID")})
 public class Application implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -59,7 +60,7 @@ public class Application implements Serializable {
     @Column(name = "LastModified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
-    
+
     public Application() {
     }
 
@@ -128,10 +129,6 @@ public class Application implements Serializable {
     public Date getLastModified() {
         return lastModified;
     }
-    
-    
-    
-    
 
     @Override
     public int hashCode() {
@@ -157,7 +154,5 @@ public class Application implements Serializable {
     public String toString() {
         return "se.kth.ict.iv1201.temp.Application[ personID=" + personID + " ]";
     }
-    
-    
-    
+
 }
