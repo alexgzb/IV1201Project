@@ -17,7 +17,7 @@
                 <h:outputLabel value="#{messages.username}"/>
                 <p:inputText id="username" value="#{accountView.username}" required="true"
                              requiredMessage="#{messages.usernameRequired}" validatorMessage="#{messages.illegalCharactersUsername}">
-                    <f:validateRegex pattern="[a-zA-Z ]*" />
+                    <f:validateRegex pattern="[a-zA-Z0-9 ]*" />
                 </p:inputText>
                 
                 
@@ -65,6 +65,9 @@
         <br/>
         <h:outputLabel value="#{messages[accountView.errorMessage]}"/>
         <br/>
+        <h:link outcome="loginindex" value="#{messages.loginText}" />
+        <br/>
+        <h:link outcome="index" value="#{messages.home}" />
     </ui:define>
 </ui:composition>
 

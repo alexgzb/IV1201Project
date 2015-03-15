@@ -11,11 +11,15 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import se.kth.ict.iv1201.controller.AccountController;
+import se.kth.ict.iv1201.controller.JobController;
 import se.kth.ict.iv1201.model.dto.AccountDTO;
 import se.kth.ict.iv1201.model.dto.ApplicationDTO;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
 import se.kth.ict.iv1201.model.dto.CompsDTO;
 import se.kth.ict.iv1201.model.dto.DatesDTO;
+import se.kth.ict.iv1201.model.dto.QueriedApplicationAvailabilityDTO;
+import se.kth.ict.iv1201.model.dto.QueriedApplicationCompetenceDTO;
+import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
 import se.kth.ict.iv1201.model.dto.ResponseDTO;
 import se.kth.ict.iv1201.util.log.Log;
 
@@ -47,11 +51,20 @@ public class AccountView implements Serializable {
     private Date tempFrom;
     private Date tempTo;
     private List<DatesDTO> dates;
+    private List<DatesDTO> savedDates;
     private CompetenceDTO competence;
     private double tempExperiance;
     private List<CompsDTO> comps;
+    private List<CompsDTO> savedComps;
+    private List<QueriedApplicationAvailabilityDTO> savedAvailability;
+    private List<QueriedApplicationCompetenceDTO> savedCompetence;
+    private Date modified;
+    private Date register;
+    private boolean hired;
     @Inject
     private AccountController controller;
+    @Inject
+    private JobController jobController;
 
     @PostConstruct
     public void startUp() {
@@ -63,6 +76,10 @@ public class AccountView implements Serializable {
         applicationCompetences = new ArrayList<Integer>();
         experiance = new ArrayList<BigDecimal>();
         comps = new ArrayList<CompsDTO>();
+        savedComps = new ArrayList<CompsDTO>();
+        savedDates = new ArrayList<DatesDTO>();
+        savedAvailability = new ArrayList<QueriedApplicationAvailabilityDTO>();
+        savedCompetence = new ArrayList<QueriedApplicationCompetenceDTO>();
     }
 
     /**
@@ -77,11 +94,11 @@ public class AccountView implements Serializable {
             ResponseDTO newAccount = controller.newAccount(new AccountDTO(username, password, firstname,
                     lastname, Email, ssn));
             requestResponse = newAccount.getStatusMessage();
+            errorMessage = null;
             if (!newAccount.isSuccess()) {
                 errorMessage = newAccount.getErrorMessage();
             }
         } catch (Exception e) {
-            e.printStackTrace();
             requestResponse = "unknownEror";
             errorMessage = null;
         }
@@ -124,6 +141,7 @@ public class AccountView implements Serializable {
         try {
             ResponseDTO application = controller.addApplication(new ApplicationDTO(username, getExperiance(), getApplicationCompetences(), fromDate.toArray(new Date[fromDate.size()]), toDate.toArray(new Date[toDate.size()])));
             requestResponse = application.getStatusMessage();
+            errorMessage = null;
             if (!application.isSuccess()) {
                 errorMessage = application.getErrorMessage();
             }
@@ -231,6 +249,11 @@ public class AccountView implements Serializable {
         this.toDate = new ArrayList(Arrays.asList(toDate));
     }
 
+    /**
+     * Converts ApplicationCompetences to an int[] and returns it.
+     *
+     * @return
+     */
     public int[] getApplicationCompetences() {
         int[] temp = new int[applicationCompetences.size()];
         for (int i = 0; i < applicationCompetences.size(); i++) {
@@ -239,6 +262,12 @@ public class AccountView implements Serializable {
         return temp;
     }
 
+    /**
+     * Takes an int[] and converts it to an Integer[] and sets
+     * ApplicationCompatanse to that value.
+     * 
+     * @param applicationCompetences 
+     */
     public void setApplicationCompetences(int[] applicationCompetences) {
         Integer[] temp = new Integer[applicationCompetences.length];
         for (int i = 0; i < applicationCompetences.length; i++) {
@@ -316,6 +345,12 @@ public class AccountView implements Serializable {
         return competence;
     }
 
+    /**
+     * Finds the right ID for the competence description and sets competence
+     * to a new competence with that value.
+     * 
+     * @param competence 
+     */
     public void setCompetence(CompetenceDTO competence) {
         for (int i = 0; i < competences.size(); i++) {
             if (competences.get(i).toString().equals(competence.toString())) {
@@ -339,6 +374,95 @@ public class AccountView implements Serializable {
 
     public void setComps(List<CompsDTO> comps) {
         this.comps = comps;
+    }
+
+    public List<QueriedApplicationAvailabilityDTO> getSavedAvailability() {
+        return savedAvailability;
+    }
+
+    public void setSavedAvailability(List<QueriedApplicationAvailabilityDTO> savedAvailability) {
+        this.savedAvailability = savedAvailability;
+    }
+
+    public List<QueriedApplicationCompetenceDTO> getSavedCompetence() {
+        return savedCompetence;
+    }
+
+    public void setSavedCompetence(List<QueriedApplicationCompetenceDTO> savedCompetence) {
+        this.savedCompetence = savedCompetence;
+    }
+
+    /**
+     * Tests if the user that logged in has an application, if so it gets logged
+     * in to the view variables.
+     *
+     * @param username Username of person that is logged in.
+     * @param ccode The language code for the selected code.
+     * @return
+     */
+    public boolean hasApplication(String username, String code) {
+        savedComps = new ArrayList<CompsDTO>();
+        savedDates = new ArrayList<DatesDTO>();
+        QueriedApplicationDTO app = jobController.getApplication(username, code);
+        if (app == null) {
+            return false;
+        }
+        for (QueriedApplicationAvailabilityDTO a : app.getAvailabilites()) {
+            tempFrom = a.getFromDate();
+            tempTo = a.getToDate();
+            savedDates.add(new DatesDTO(tempTo, tempFrom));
+        }
+        for (QueriedApplicationCompetenceDTO c : app.getCompetencies()) {
+            competence = new CompetenceDTO(c.getDescription(), 0);
+            tempExperiance = c.getYearsOfExperience().doubleValue();
+            savedComps.add(new CompsDTO(tempExperiance, competence));
+        }
+        firstname = app.getFirstname();
+        lastname = app.getLastname();
+        modified = app.getLastModified();
+        register = app.getRegistrationDate();
+        hired = app.isHired();
+        return true;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    public Date getRegister() {
+        return register;
+    }
+
+    public void setRegister(Date register) {
+        this.register = register;
+    }
+
+    public boolean isHired() {
+        return hired;
+    }
+
+    public void setHired(boolean hired) {
+        this.hired = hired;
+    }
+
+    public List<DatesDTO> getSavedDates() {
+        return savedDates;
+    }
+
+    public void setSavedDates(List<DatesDTO> savedDates) {
+        this.savedDates = savedDates;
+    }
+
+    public List<CompsDTO> getSavedComps() {
+        return savedComps;
+    }
+
+    public void setSavedComps(List<CompsDTO> savedComps) {
+        this.savedComps = savedComps;
     }
 
 }
