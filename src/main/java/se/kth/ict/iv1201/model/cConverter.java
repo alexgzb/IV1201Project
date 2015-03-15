@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
+import se.kth.ict.iv1201.util.log.Log;
 
 
 /**
@@ -13,6 +14,7 @@ import se.kth.ict.iv1201.model.dto.CompetenceDTO;
  * 
  * @author Wilhelm
  */
+@Log
 @FacesConverter(value = "cConverter")
 public class cConverter implements Converter {
 

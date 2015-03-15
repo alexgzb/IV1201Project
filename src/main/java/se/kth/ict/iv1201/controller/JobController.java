@@ -14,6 +14,7 @@ import se.kth.ict.iv1201.model.dao.AccountDAO;
 import se.kth.ict.iv1201.model.dao.JobDAO;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
 import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * An enterprise bean with the purpose of providing transaction logic between the presentation layer
@@ -22,6 +23,7 @@ import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
  */
 
 @Stateless
+@Log
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class JobController {
     

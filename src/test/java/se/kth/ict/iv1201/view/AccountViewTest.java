@@ -148,7 +148,7 @@ public class AccountViewTest {
             ).setParameter("username", "notTaken").getSingleResult();
             person = em.createNamedQuery("Person.findBySsn", Person.class
             ).setParameter("ssn", "9309113948").getSingleResult();
-            assertEquals(accountDao.encryptPassword("0123456789"), user.getPassword());
+            assertEquals(AccountDAO.encryptPassword("0123456789"), user.getPassword());
         } catch (NoResultException | NonUniqueResultException e) {
             assertFalse(true);
         }

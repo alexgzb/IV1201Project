@@ -13,6 +13,7 @@ import org.primefaces.context.RequestContext;
 import se.kth.ict.iv1201.controller.JobController;
 import se.kth.ict.iv1201.model.dto.CompetenceDTO;
 import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * A managed bean that provides an extension in the presentation layer for recruiters wanting to query job related data.
@@ -21,6 +22,7 @@ import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
  * @author Christian Schreil
  */
 
+@Log
 @Named("jobView")
 @SessionScoped
 public class JobView implements Serializable {
