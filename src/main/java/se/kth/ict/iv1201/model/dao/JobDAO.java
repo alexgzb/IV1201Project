@@ -19,12 +19,14 @@ import se.kth.ict.iv1201.model.dto.QueriedApplicationCompetenceDTO;
 import se.kth.ict.iv1201.model.dto.QueriedApplicationDTO;
 import se.kth.ict.iv1201.model.entities.Application;
 import se.kth.ict.iv1201.model.entities.Language;
+import se.kth.ict.iv1201.util.log.Log;
 
 /**
  * DAO that handles transactions related to job queries.
  * @author Christian Schreil
  */
 @Stateless
+@Log
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class JobDAO {
     

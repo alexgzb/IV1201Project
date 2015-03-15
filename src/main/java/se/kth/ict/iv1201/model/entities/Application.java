@@ -65,6 +65,10 @@ public class Application implements Serializable {
 
     public Application(Integer personID) {
         this.personID = personID;
+        this.hired = false;
+        Date date = new Date();
+        this.lastModified = date;
+        this.registrationDate = date;
     }
 
     public Integer getPersonID() {

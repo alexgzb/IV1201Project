@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://java.sun.com/xml/ns/persistence         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="rsPU" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>jdbc/rs_test</jta-data-source>
-    <class>se.kth.ict.iv1201.model.entities.Application</class>
-    <class>se.kth.ict.iv1201.model.entities.ApplicationAvailability</class>
-    <class>se.kth.ict.iv1201.model.entities.ApplicationCompetence</class>
-    <class>se.kth.ict.iv1201.model.entities.Competence</class>
-    <class>se.kth.ict.iv1201.model.entities.CompetenceTranslation</class>
-    <class>se.kth.ict.iv1201.model.entities.Employment</class>
-    <class>se.kth.ict.iv1201.model.entities.Job</class>
-    <class>se.kth.ict.iv1201.model.entities.JobTranslation</class>
-    <class>se.kth.ict.iv1201.model.entities.Language</class>
-    <class>se.kth.ict.iv1201.model.entities.Person</class>
-    <class>se.kth.ict.iv1201.model.entities.Role</class>
-    <class>se.kth.ict.iv1201.model.entities.User</class>
-    <class>se.kth.ict.iv1201.model.entities.UserRole</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties>
-      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
-      <property name="eclipselink.logging.level.sql" value="FINE"/>
-      <property name="eclipselink.logging.parameters" value="true"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="rsPU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>jdbc/rs_test</jta-data-source>
+        <class>se.kth.ict.iv1201.model.entities.Application</class>
+        <class>se.kth.ict.iv1201.model.entities.ApplicationAvailability</class>
+        <class>se.kth.ict.iv1201.model.entities.ApplicationCompetence</class>
+        <class>se.kth.ict.iv1201.model.entities.Competence</class>
+        <class>se.kth.ict.iv1201.model.entities.CompetenceTranslation</class>
+        <class>se.kth.ict.iv1201.model.entities.Employment</class>
+        <class>se.kth.ict.iv1201.model.entities.Job</class>
+        <class>se.kth.ict.iv1201.model.entities.JobTranslation</class>
+        <class>se.kth.ict.iv1201.model.entities.Language</class>
+        <class>se.kth.ict.iv1201.model.entities.Person</class>
+        <class>se.kth.ict.iv1201.model.entities.Role</class>
+        <class>se.kth.ict.iv1201.model.entities.User</class>
+        <class>se.kth.ict.iv1201.model.entities.UserRole</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+            <!-- Commenting out Debug of Arquillian Testing SQL -Alex-
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            -->
+        </properties>
+    </persistence-unit>
 </persistence>
